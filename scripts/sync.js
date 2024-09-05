@@ -1,10 +1,13 @@
 const sequelize = require("../config/database");
-// const User = require('../models/User'); // Import your models here
+const User = require("../models/User");
+const Article = require("../models/Article");
+const Comment = require("../models/Comment");
 
 async function syncDatabase() {
   try {
-    await sequelize.sync({ force: true }); // Drop and recreate tables
-    console.log("Database synchronized");
+    // Sync the models
+    await sequelize.sync({ force: true }); // Drops tables and recreates them
+    console.log("Database synced");
   } catch (err) {
     console.error("Sync error:", err);
   }
