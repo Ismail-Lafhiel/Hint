@@ -4,5 +4,8 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("flowbite/plugin"), { tailwindcss: {}, autoprefixer: {} }],
+  plugins: [
+    require("flowbite/plugin"),
+    require("autoprefixer"),
+  ],
 };
