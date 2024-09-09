@@ -15,9 +15,6 @@
       } else {
         document.documentElement.classList.remove("dark");
       }
-      function decodeURIComponent(str) {
-        return decodeURIComponent(str);
-      }
     </script>
   </head>
   <body>
@@ -109,154 +106,109 @@
                 </div>
 
                 <div class="space-y-4">
-                  <div>
-                    <label
-                      class="text-gray-800 text-sm mb-2 block dark:text-gray-200"
-                      for="username"
-                      >Full Name</label
+                  <div class="relative flex items-center">
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="#bbb"
+                      stroke="#bbb"
+                      class="w-4 h-4 absolute right-4"
+                      viewBox="0 0 24 24"
                     >
-                    <div class="relative flex items-center">
-                      <input
-                        name="username"
-                        type="text"
-                        required
-                        class="bg-transparent border border-gray-400 w-full text-gray-800 text-sm pl-4 pr-10 py-3 rounded-xl outline-primary-600 dark:text-gray-200"
-                        placeholder="Enter name"
-                      />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="#bbb"
-                        stroke="#bbb"
-                        class="w-4 h-4 absolute right-4"
-                        viewBox="0 0 24 24"
+                      <circle
+                        cx="10"
+                        cy="7"
+                        r="6"
+                        data-original="#000000"
+                      ></circle>
+                      <path
+                        d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z"
+                        data-original="#000000"
+                      ></path>
+                    </svg>
+                    <label
+                      for="username"
+                      class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                      >Username</label
+                    >
+                  </div>
+                  <div class="relative flex items-center">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="#bbb"
+                      stroke="#bbb"
+                      class="w-4 h-4 absolute right-4"
+                      viewBox="0 0 682.667 682.667"
+                    >
+                      <defs>
+                        <clipPath id="a" clipPathUnits="userSpaceOnUse">
+                          <path
+                            d="M0 512h512V0H0Z"
+                            data-original="#000000"
+                          ></path>
+                        </clipPath>
+                      </defs>
+                      <g
+                        clip-path="url(#a)"
+                        transform="matrix(1.33 0 0 -1.33 0 682.667)"
                       >
-                        <circle
-                          cx="10"
-                          cy="7"
-                          r="6"
-                          data-original="#000000"
-                        ></circle>
                         <path
-                          d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z"
+                          fill="none"
+                          stroke-miterlimit="10"
+                          stroke-width="40"
+                          d="M452 444H60c-22.091 0-40-17.909-40-40v-39.446l212.127-157.782c14.17-10.54 33.576-10.54 47.746 0L492 364.554V404c0 22.091-17.909 40-40 40Z"
                           data-original="#000000"
                         ></path>
-                      </svg>
-                    </div>
-                    <% if (usernameError) { %>
-                    <div
-                      class="error-container bg-red-100 text-red-600 p-2 mt-2 rounded"
-                    >
-                      <%= decodeURIComponent(usernameError) %>
-                    </div>
-                    <% } %> <% if (usernameSuccess) { %>
-                    <div
-                      class="success-container bg-green-100 text-green-600 p-2 mt-2 rounded"
-                    >
-                      <%= decodeURIComponent(usernameSuccess) %>
-                    </div>
-                    <% } %>
-                  </div>
-                  <div>
+                        <path
+                          d="M472 274.9V107.999c0-11.027-8.972-20-20-20H60c-11.028 0-20 8.973-20 20V274.9L0 304.652V107.999c0-33.084 26.916-60 60-60h392c33.084 0 60 26.916 60 60v196.653Z"
+                          data-original="#000000"
+                        ></path>
+                      </g>
+                    </svg>
                     <label
-                      class="text-gray-800 text-sm mb-2 block dark:text-gray-200"
                       for="email"
+                      class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                       >Email</label
                     >
-                    <div class="relative flex items-center">
-                      <input
-                        name="email"
-                        type="email"
-                        required
-                        class="bg-transparent border border-gray-400 w-full text-gray-800 text-sm pl-4 pr-10 py-3 rounded-xl outline-primary-600 dark:text-gray-200"
-                        placeholder="Enter email"
-                      />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="#bbb"
-                        stroke="#bbb"
-                        class="w-4 h-4 absolute right-4"
-                        viewBox="0 0 682.667 682.667"
-                      >
-                        <defs>
-                          <clipPath id="a" clipPathUnits="userSpaceOnUse">
-                            <path
-                              d="M0 512h512V0H0Z"
-                              data-original="#000000"
-                            ></path>
-                          </clipPath>
-                        </defs>
-                        <g
-                          clip-path="url(#a)"
-                          transform="matrix(1.33 0 0 -1.33 0 682.667)"
-                        >
-                          <path
-                            fill="none"
-                            stroke-miterlimit="10"
-                            stroke-width="40"
-                            d="M452 444H60c-22.091 0-40-17.909-40-40v-39.446l212.127-157.782c14.17-10.54 33.576-10.54 47.746 0L492 364.554V404c0 22.091-17.909 40-40 40Z"
-                            data-original="#000000"
-                          ></path>
-                          <path
-                            d="M472 274.9V107.999c0-11.027-8.972-20-20-20H60c-11.028 0-20 8.973-20 20V274.9L0 304.652V107.999c0-33.084 26.916-60 60-60h392c33.084 0 60 26.916 60 60v196.653Z"
-                            data-original="#000000"
-                          ></path>
-                        </g>
-                      </svg>
-                    </div>
-                    <% if (emailError) { %>
-                    <div
-                      class="error-container bg-red-100 text-red-600 p-2 mt-2 rounded"
-                    >
-                      <%= decodeURIComponent(emailError) %>
-                    </div>
-                    <% } %> <% if (emailSuccess) { %>
-                    <div
-                      class="success-container bg-green-100 text-green-600 p-2 mt-2 rounded"
-                    >
-                      <%= decodeURIComponent(emailSuccess) %>
-                    </div>
-                    <% } %>
                   </div>
-                  <div>
+                  <div class="relative flex items-center">
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="#bbb"
+                      stroke="#bbb"
+                      class="w-4 h-4 absolute right-4 cursor-pointer"
+                      viewBox="0 0 128 128"
+                    >
+                      <path
+                        d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z"
+                        data-original="#000000"
+                      ></path>
+                    </svg>
                     <label
-                      class="text-gray-800 text-sm mb-2 block dark:text-gray-200"
                       for="password"
+                      class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-800 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                       >Password</label
                     >
-                    <div class="relative flex items-center">
-                      <input
-                        name="password"
-                        type="password"
-                        required
-                        class="bg-transparent border border-gray-400 w-full text-gray-800 text-sm pl-4 pr-10 py-3 rounded-xl outline-primary-600 dark:text-gray-200"
-                        placeholder="Enter password"
-                      />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="#bbb"
-                        stroke="#bbb"
-                        class="w-4 h-4 absolute right-4 cursor-pointer"
-                        viewBox="0 0 128 128"
-                      >
-                        <path
-                          d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z"
-                          data-original="#000000"
-                        ></path>
-                      </svg>
-                    </div>
-                    <% if (passwordError) { %>
-                    <div
-                      class="error-container bg-red-100 text-red-600 p-2 mt-2 rounded"
-                    >
-                      <%= decodeURIComponent(passwordError) %>
-                    </div>
-                    <% } %> <% if (passwordSuccess) { %>
-                    <div
-                      class="success-container bg-green-100 text-green-600 p-2 mt-2 rounded"
-                    >
-                      <%= decodeURIComponent(passwordSuccess) %>
-                    </div>
-                    <% } %>
                   </div>
                   <div class="flex items-center">
                     <input
@@ -297,6 +249,35 @@
                     >Login here</a
                   >
                 </p>
+                <% if (errors.length > 0) { %>
+                <div
+                  class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-700 dark:text-red-400 my-4 sm:my-6"
+                  role="alert"
+                >
+                  <svg
+                    class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+                    />
+                  </svg>
+                  <span class="sr-only">Danger</span>
+                  <div>
+                    <span class="font-medium"
+                      >Ensure that these requirements are met:</span
+                    >
+                    <ul class="mt-1.5 list-disc list-inside">
+                      <% errors.forEach(function (error) { %>
+                      <li><%= error %></li>
+                      <% }); %>
+                    </ul>
+                  </div>
+                </div>
+                <% } %>
               </form>
               <div
                 class="divider absolute left-0 right-0 mx-auto w-1 h-full border-l border-gray-400 max-md:hidden"
