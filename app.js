@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 syncDatabase().then(() => {
   const indexRouter = require("./routes/index");
   const registerRouter = require("./routes/register");
-  const commentRouter = require("./routes/comment");
+  const commentRouter = require("./routes/comment"); 
   app.use("/", indexRouter);
   app.use("/register", registerRouter);
   app.use("/comment", commentRouter);

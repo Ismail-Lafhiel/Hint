@@ -25,7 +25,7 @@ const Article = sequelize.define(
 );
 
 // Define relationship: an article belongs to a user
-Article.belongsTo(User, { foreignKey: "userId", as: "author" });
-User.hasMany(Article, { foreignKey: "userId" });
+Article.belongsTo(User, { foreignKey: "userId", as: "author", onDelete: 'CASCADE' });
+User.hasMany(Article, { foreignKey: "userId", onDelete: 'CASCADE' });
 
 module.exports = Article;
