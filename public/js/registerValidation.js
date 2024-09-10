@@ -43,46 +43,93 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const validateField = (input) => {
-    const isValid = validateInput(input);
+  const validatePassword = (input) => {
+    const value = input.value.trim();
+    let message = "";
+    let isValid = true;
 
-    const classes = input.classList;
+    // Handle empty password case
+    if (value.length === 0) {
+      removeMessage(input, "error");
+      removeMessage(input, "success");
+      return;
+    }
+
+    // Check password criteria
+    if (value.length < 8) {
+      message += "Password must be at least 8 characters long. ";
+      isValid = false;
+    }
+    if (!/[A-Z]/.test(value)) {
+      message += "Must contain at least one uppercase letter. ";
+      isValid = false;
+    }
+    if (!/[a-z]/.test(value)) {
+      message += "Must contain at least one lowercase letter. ";
+      isValid = false;
+    }
+    if (!/\d/.test(value)) {
+      message += "Must contain at least one number. ";
+      isValid = false;
+    }
+    if (!/[!@$!%*?&]/.test(value)) {
+      message += "Must contain at least one special character. ";
+      isValid = false;
+    }
+
+    // Display message based on validity
     if (isValid) {
-      // Success: Change the outline to green and display success message
-      classes.remove(
-        "border-red-600",
-        "dark:border-red-500",
-        "focus:border-red-600"
-      );
-      classes.add(
-        "border-green-600",
-        "dark:border-green-500",
-        "focus:border-green-600"
-      );
-
-      // Show the success message
-      showMessage(input, "Valid input.", "success");
-
-      // Remove any error message
+      showMessage(input, "Password is strong.", "success");
       removeMessage(input, "error");
     } else {
-      // Error: Change the outline to red and display error message
-      classes.remove(
-        "border-green-600",
-        "dark:border-green-500",
-        "focus:border-green-600"
-      );
-      classes.add(
-        "border-red-600",
-        "dark:border-red-500",
-        "focus:border-red-600"
-      );
+      showMessage(input, message, "error");
+    }
+  };
 
-      // Show the error message
-      showMessage(input, "Invalid input. Please check again.", "error");
+  const validateField = (input) => {
+    if (input.id === "password") {
+      validatePassword(input);
+    } else {
+      const isValid = validateInput(input);
 
-      // Remove any success message
-      removeMessage(input, "success");
+      const classes = input.classList;
+      if (isValid) {
+        // Success: Change the outline to green and display success message
+        classes.remove(
+          "border-red-600",
+          "dark:border-red-500",
+          "focus:border-red-600"
+        );
+        classes.add(
+          "border-green-600",
+          "dark:border-green-500",
+          "focus:border-green-600"
+        );
+
+        // Show the success message
+        showMessage(input, "Valid input.", "success");
+
+        // Remove any error message
+        removeMessage(input, "error");
+      } else {
+        // Error: Change the outline to red and display error message
+        classes.remove(
+          "border-green-600",
+          "dark:border-green-500",
+          "focus:border-green-600"
+        );
+        classes.add(
+          "border-red-600",
+          "dark:border-red-500",
+          "focus:border-red-600"
+        );
+
+        // Show the error message
+        showMessage(input, "Invalid input. Please check again.", "error");
+
+        // Remove any success message
+        removeMessage(input, "success");
+      }
     }
   };
 
@@ -116,9 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
       case "email":
         return /^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(input.value.trim());
       case "password":
-        return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-          input.value.trim()
-        );
+        // Special handling for password, so it won't reach here
+        return true;
       default:
         return false;
     }
