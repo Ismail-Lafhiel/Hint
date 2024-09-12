@@ -4,7 +4,7 @@ const router = express.Router();
 router.get("/", (req, res) => {
   try {
     const successMessage = req.session.successMessage || null;
-    console.log(successMessage);
+    // console.log(successMessage);
     
     
     delete req.session.successMessage;
