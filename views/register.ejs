@@ -19,12 +19,12 @@
   </head>
   <body>
     <%- include('partials/header') %>
-    <section class="font-[sans-serif] bg-white dark:bg-gray-900">
-      <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+    <section class="font-[sans-serif] bg-white dark:bg-gray-950">
+      <div class="px-4 mx-auto max-w-screen-xl lg:px-6 relative">
         <div class="flex items-center md:h-screen p-4">
           <div class="w-full max-w-5xl mx-auto">
             <div
-              class="grid md:grid-cols-2 gap-16 bg-gray-50 shadow w-full sm:p-8 p-6 rounded-xl relative dark:bg-gray-800"
+              class="grid md:grid-cols-2 gap-16 bg-gray-50 shadow w-full sm:p-8 p-6 rounded-xl relative dark:bg-gray-900"
             >
               <div>
                 <div class="mb-16">
@@ -137,7 +137,7 @@
                       </svg>
                       <label
                         for="fullname"
-                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-50 dark:bg-gray-800 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-50 dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                         >Full name</label
                       >
                     </div>
@@ -187,7 +187,7 @@
                       </svg>
                       <label
                         for="email"
-                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-50 dark:bg-gray-800 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-50 dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                         >Email</label
                       >
                     </div>
@@ -216,7 +216,7 @@
                       </svg>
                       <label
                         for="password"
-                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-50 dark:bg-gray-800 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-50 dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                         >Password</label
                       >
                     </div>
@@ -261,35 +261,6 @@
                     >Login here</a
                   >
                 </p>
-                <% if (errors.length > 0) { %>
-                <div
-                  class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-700 dark:text-red-400 my-4 sm:my-6"
-                  role="alert"
-                >
-                  <svg
-                    class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
-                    />
-                  </svg>
-                  <span class="sr-only">Danger</span>
-                  <div>
-                    <span class="font-medium"
-                      >Ensure that these requirements are met:</span
-                    >
-                    <ul class="mt-1.5 list-disc list-inside">
-                      <% errors.forEach(function (error) { %>
-                      <li><%= error %></li>
-                      <% }); %>
-                    </ul>
-                  </div>
-                </div>
-                <% } %>
               </form>
               <div
                 class="divider absolute left-0 right-0 mx-auto w-1 h-full border-l border-gray-400 max-md:hidden"
@@ -297,6 +268,58 @@
             </div>
           </div>
         </div>
+        <% if (errors.length > 0) { %>
+        <div>
+          <% errors.forEach(function (error) { %>
+          <div
+            id="toast-danger"
+            class="absolute top-0 right-0 flex my-4 mx-3 items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+            role="alert"
+          >
+            <div
+              class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200"
+            >
+              <svg
+                class="w-5 h-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
+                />
+              </svg>
+              <span class="sr-only">Error icon</span>
+            </div>
+            <div class="ms-3 text-sm font-normal"><%= error %></div>
+            <button
+              type="button"
+              class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+              data-dismiss-target="#toast-danger"
+              aria-label="Close"
+            >
+              <span class="sr-only">Close</span>
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+            </button>
+          </div>
+          <% }); %>
+        </div>
+        <% } %>
       </div>
     </section>
     <%- include('partials/footer') %>
