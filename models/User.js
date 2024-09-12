@@ -33,7 +33,7 @@ const User = sequelize.define(
       allowNull: false,
     },
   },
-  {
+  { 
     timestamps: true,
   }
 );
