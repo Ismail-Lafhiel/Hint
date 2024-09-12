@@ -18,8 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Sync database and start server
 syncDatabase().then(() => {
   const indexRouter = require("./routes/index");
+  const registerRouter = require("./routes/register");
   app.use("/", indexRouter);
-
+  app.use("/register", registerRouter);
   app.listen(3000, () => {
     console.log("Server running on port 3000");
   });
