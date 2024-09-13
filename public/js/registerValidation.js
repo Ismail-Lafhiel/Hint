@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to show messages (error or success)
   const showMessage = (input, message, type) => {
-    removeMessage(input, type);
+    removeMessages(input); // First, remove any existing messages
 
     const p = document.createElement("p");
     p.classList.add(
@@ -17,10 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }</span> ${message}`;
 
     p.id = type === "error" ? "outlined_error_help" : "outlined_success_help";
-    input.setAttribute(
-      "aria-describedby",
-      type === "error" ? "outlined_error_help" : "outlined_success_help"
-    );
+    input.setAttribute("aria-describedby", p.id);
 
     const container = input.closest(".input-container");
     if (container) {
@@ -28,16 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Function to remove existing messages
-  const removeMessage = (input, type) => {
-    const messageId =
-      type === "error" ? "outlined_error_help" : "outlined_success_help";
+  // Function to remove any existing messages (both success and error)
+  const removeMessages = (input) => {
     const container = input.closest(".input-container");
     if (container) {
-      const existingMessage = container.querySelector(`#${messageId}`);
-      if (existingMessage) {
-        existingMessage.remove();
-      }
+      const existingMessages = container.querySelectorAll(
+        "#outlined_error_help, #outlined_success_help"
+      );
+      existingMessages.forEach((message) => message.remove());
     }
   };
 
@@ -103,14 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
         input.classList.add("border-green-600", "dark:border-green-500");
 
         showMessage(input, "Valid input.", "success");
-        removeMessage(input, "error");
         return true;
       } else {
         input.classList.remove("border-green-600", "dark:border-green-500");
         input.classList.add("border-red-600", "dark:border-red-500");
 
         showMessage(input, "Invalid input. Please check again.", "error");
-        removeMessage(input, "success");
         return false;
       }
     }
@@ -145,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Input validation for email and fullname
   function validateInput(input) {
     const id = input.id;
     switch (id) {

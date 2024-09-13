@@ -74,8 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const validatePassword = (input) => {
     const value = input.value.trim();
-    let message = "";
-    let isValid = true;
 
     removeMessage(input, "error");
     removeMessage(input, "success");
@@ -85,39 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
       input.classList.add("border-red-600", "dark:border-red-500");
       input.classList.remove("border-green-600", "dark:border-green-500");
       return false;
-    }
-
-    if (value.length < 8) {
-      message += "Password must be at least 8 characters long. ";
-      isValid = false;
-    }
-    if (!/[A-Z]/.test(value)) {
-      message += "Must contain at least one uppercase letter. ";
-      isValid = false;
-    }
-    if (!/[a-z]/.test(value)) {
-      message += "Must contain at least one lowercase letter. ";
-      isValid = false;
-    }
-    if (!/\d/.test(value)) {
-      message += "Must contain at least one number. ";
-      isValid = false;
-    }
-    if (!/[!@$!%*?&]/.test(value)) {
-      message += "Must contain at least one special character. ";
-      isValid = false;
-    }
-
-    if (isValid) {
-      showMessage(input, "Password is strong.", "success");
+    } else {
+      showMessage(input, "Password is provided.", "success");
       input.classList.add("border-green-600", "dark:border-green-500");
       input.classList.remove("border-red-600", "dark:border-red-500");
       return true;
-    } else {
-      showMessage(input, message, "error");
-      input.classList.add("border-red-600", "dark:border-red-500");
-      input.classList.remove("border-green-600", "dark:border-green-500");
-      return false;
     }
   };
 

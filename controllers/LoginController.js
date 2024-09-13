@@ -3,16 +3,20 @@ const User = require("../models/User");
 
 exports.showLoginForm = (req, res) => {
   const successMessage = req.session.successMessage || null;
+  const errorMessage = req.session.errorMessage || null;
 
   req.session.successMessage = null;
+  req.session.errorMessage = null;
 
   res.render("login", {
     title: "Login",
     errors: [],
     formData: {},
     successMessage,
+    errorMessage,
   });
 };
+
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
   const errors = [];
@@ -30,46 +34,33 @@ exports.loginUser = async (req, res) => {
 
   // If validation fails, return errors
   if (errors.length > 0) {
-    return res.render("login", {
-      title: "Login",
-      errors,
-      formData: { email, password },
-    });
+    req.session.errorMessage = errors.join(" ");
+    return res.redirect("/login");
   }
 
   try {
     // Check if a user with the provided email exists
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      errors.push("No account found with this email address.");
-      return res.render("login", {
-        title: "Login",
-        errors,
-        formData: { email, password },
-      });
+      req.session.errorMessage = "Invalid Credentials";
+      return res.redirect("/login");
     }
 
     // Compare the provided password with the hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      errors.push("Incorrect password.");
-      return res.render("login", {
-        title: "Login",
-        errors,
-        formData: { email, password },
-      });
+      req.session.errorMessage = "Invalid Credentials";
+      return res.redirect("/login");
     }
 
-    // On successful login, redirect to a dashboard or home page
+    // On successful login, set session user and redirect to home page
     req.session.user = user;
-    res.redirect("/");
+    req.session.successMessage = "Login successful!";
+    return res.redirect("/");
   } catch (error) {
     console.error("Error logging in:", error);
-    errors.push("An error occurred while trying to log in. Please try again.");
-    return res.render("login", {
-      title: "Login",
-      errors,
-      formData: { email, password },
-    });
+    req.session.errorMessage =
+      "An error occurred while trying to log in. Please try again.";
+    return res.redirect("/login");
   }
 };
