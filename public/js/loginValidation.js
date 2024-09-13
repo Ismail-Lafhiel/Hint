@@ -1,14 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
 
-  // Track validation states
-  let isEmailValid = false;
-  let isPasswordValid = false;
-
   const showMessage = (input, message, type) => {
-    // First remove both error and success messages to ensure only one shows
-    removeMessage(input, "error");
-    removeMessage(input, "success");
+    removeMessage(input, type);
 
     const p = document.createElement("p");
     p.classList.add(
@@ -20,22 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
     p.innerHTML = `<span class="font-medium">${
       type === "error" ? "Oh, snapp!" : "Well done!"
     }</span> ${message}`;
+
     p.id = type === "error" ? "outlined_error_help" : "outlined_success_help";
     input.setAttribute(
       "aria-describedby",
       type === "error" ? "outlined_error_help" : "outlined_success_help"
     );
+
     const container = input.closest(".input-container");
     if (container) {
       container.appendChild(p);
-    }
-
-    // Add or remove the error/success outline class
-    input.classList.remove("border-red-600", "border-green-600");
-    if (type === "error") {
-      input.classList.add("border-red-600");
-    } else {
-      input.classList.add("border-green-600");
     }
   };
 
@@ -51,15 +39,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const validateLogin = (input) => {
+    const id = input.id;
+
+    switch (id) {
+      case "email":
+        return validateEmail(input);
+      case "password":
+        return validatePassword(input);
+      default:
+        return false;
+    }
+  };
+
   const validateEmail = (input) => {
     const value = input.value.trim();
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    removeMessage(input, "error");
+    removeMessage(input, "success");
+
     if (!emailPattern.test(value)) {
       showMessage(input, "Please enter a valid email address.", "error");
-      isEmailValid = false;
+      input.classList.add("border-red-600", "dark:border-red-500");
+      input.classList.remove("border-green-600", "dark:border-green-500");
+      return false;
     } else {
       showMessage(input, "Email is valid.", "success");
-      isEmailValid = true;
+      input.classList.add("border-green-600", "dark:border-green-500");
+      input.classList.remove("border-red-600", "dark:border-red-500");
+      return true;
     }
   };
 
@@ -68,14 +77,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let message = "";
     let isValid = true;
 
-    // Handle empty password case
+    removeMessage(input, "error");
+    removeMessage(input, "success");
+
     if (value.length === 0) {
       showMessage(input, "Password is required.", "error");
-      isPasswordValid = false;
-      return;
+      input.classList.add("border-red-600", "dark:border-red-500");
+      input.classList.remove("border-green-600", "dark:border-green-500");
+      return false;
     }
 
-    // Check password criteria
     if (value.length < 8) {
       message += "Password must be at least 8 characters long. ";
       isValid = false;
@@ -97,35 +108,48 @@ document.addEventListener("DOMContentLoaded", () => {
       isValid = false;
     }
 
-    // Display message based on validity
     if (isValid) {
       showMessage(input, "Password is strong.", "success");
-      isPasswordValid = true;
+      input.classList.add("border-green-600", "dark:border-green-500");
+      input.classList.remove("border-red-600", "dark:border-red-500");
+      return true;
     } else {
       showMessage(input, message, "error");
-      isPasswordValid = false;
+      input.classList.add("border-red-600", "dark:border-red-500");
+      input.classList.remove("border-green-600", "dark:border-green-500");
+      return false;
     }
   };
 
   form.addEventListener("input", (event) => {
-    if (event.target.matches("input[type='email']")) {
-      validateEmail(event.target);
-    }
-    if (event.target.matches("input[type='password']")) {
-      validatePassword(event.target);
+    if (
+      event.target.matches(
+        "input[type='text'], input[type='email'], input[type='password']"
+      )
+    ) {
+      validateLogin(event.target);
     }
   });
 
   form.addEventListener("submit", (event) => {
-    const emailInput = form.querySelector("input[type='email']");
-    const passwordInput = form.querySelector("input[type='password']");
+    console.log("Form submission triggered");
 
-    // Validate fields before submitting
-    validateEmail(emailInput);
-    validatePassword(passwordInput);
+    const inputs = form.querySelectorAll(
+      "input[type='text'], input[type='email'], input[type='password']"
+    );
+    let formIsValid = true;
 
-    // Prevent form submission if any field is invalid
-    if (!isEmailValid || !isPasswordValid) {
+    inputs.forEach((input) => {
+      const isValid = validateLogin(input);
+      console.log(`Validating ${input.id}: ${isValid}`);
+
+      if (!isValid) {
+        formIsValid = false;
+      }
+    });
+
+    if (!formIsValid) {
+      console.log("Form is invalid, preventing submission");
       event.preventDefault();
     }
   });
