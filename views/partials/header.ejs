@@ -15,7 +15,7 @@
         >
       </a>
       <div class="flex items-center lg:order-2">
-        <% if (isAuthenticated) { %>
+        <% if (isAuthenticated && user) { %>
         <img
           id="avatarButton"
           type="button"
@@ -54,7 +54,7 @@
           </ul>
           <div class="py-1">
             <a
-              href="/signout"
+              href="/logout"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >Sign out</a
             >

@@ -38,9 +38,14 @@ syncDatabase().then(() => {
   const indexRouter = require("./routes/index");
   const registerRouter = require("./routes/register");
   const loginRouter = require("./routes/login");
+  const logoutRouter = require("./routes/logout");
+
+  app.use(redirectIfAuthenticated);
   app.use("/", indexRouter);
-  app.use("/register", redirectIfAuthenticated, registerRouter);
-  app.use("/login", redirectIfAuthenticated, loginRouter);
+  app.use("/register", registerRouter);
+  app.use("/login", loginRouter);
+  app.use("/logout", logoutRouter);
+
   app.listen(3000, () => {
     console.log("Server running on port 3000");
   });
