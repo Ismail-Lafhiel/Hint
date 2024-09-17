@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
 
+  // Function to show messages (error or success)
   const showMessage = (input, message, type) => {
-    removeMessage(input, type);
+    removeMessages(input); // First, remove any existing messages
 
-    // Create the new message element
     const p = document.createElement("p");
     p.classList.add(
       "mt-2",
@@ -16,43 +16,38 @@ document.addEventListener("DOMContentLoaded", () => {
       type === "error" ? "Oh, snapp!" : "Well done!"
     }</span> ${message}`;
 
-    // Assign the correct id and aria-describedby attribute
     p.id = type === "error" ? "outlined_error_help" : "outlined_success_help";
-    input.setAttribute(
-      "aria-describedby",
-      type === "error" ? "outlined_error_help" : "outlined_success_help"
-    );
+    input.setAttribute("aria-describedby", p.id);
 
-    // Find the .input-container to append the message
     const container = input.closest(".input-container");
     if (container) {
       container.appendChild(p);
     }
   };
 
-  // Function to remove the existing message
-  const removeMessage = (input, type) => {
-    const messageId =
-      type === "error" ? "outlined_error_help" : "outlined_success_help";
+  // Function to remove any existing messages (both success and error)
+  const removeMessages = (input) => {
     const container = input.closest(".input-container");
     if (container) {
-      const existingMessage = container.querySelector(`#${messageId}`);
-      if (existingMessage) {
-        existingMessage.remove();
-      }
+      const existingMessages = container.querySelectorAll(
+        "#outlined_error_help, #outlined_success_help"
+      );
+      existingMessages.forEach((message) => message.remove());
     }
   };
 
+  // Function to validate the password field
   const validatePassword = (input) => {
     const value = input.value.trim();
     let message = "";
     let isValid = true;
 
-    // Handle empty password case
+    // Check if password is empty
     if (value.length === 0) {
-      removeMessage(input, "error");
-      removeMessage(input, "success");
-      return;
+      showMessage(input, "Password is required.", "error");
+      input.classList.add("border-red-600", "dark:border-red-500");
+      input.classList.remove("border-green-600", "dark:border-green-500");
+      return false; // Invalid password
     }
 
     // Check password criteria
@@ -77,63 +72,44 @@ document.addEventListener("DOMContentLoaded", () => {
       isValid = false;
     }
 
-    // Display message based on validity
+    // Show error or success message based on validity
     if (isValid) {
       showMessage(input, "Password is strong.", "success");
-      removeMessage(input, "error");
+      input.classList.add("border-green-600", "dark:border-green-500");
+      input.classList.remove("border-red-600", "dark:border-red-500");
+      return true; // Valid password
     } else {
       showMessage(input, message, "error");
+      input.classList.add("border-red-600", "dark:border-red-500");
+      input.classList.remove("border-green-600", "dark:border-green-500");
+      return false; // Invalid password
     }
   };
 
+  // Function to validate input fields
   const validateField = (input) => {
     if (input.id === "password") {
-      validatePassword(input);
+      return validatePassword(input);
     } else {
       const isValid = validateInput(input);
 
-      const classes = input.classList;
       if (isValid) {
-        // Success: Change the outline to green and display success message
-        classes.remove(
-          "border-red-600",
-          "dark:border-red-500",
-          "focus:border-red-600"
-        );
-        classes.add(
-          "border-green-600",
-          "dark:border-green-500",
-          "focus:border-green-600"
-        );
+        input.classList.remove("border-red-600", "dark:border-red-500");
+        input.classList.add("border-green-600", "dark:border-green-500");
 
-        // Show the success message
         showMessage(input, "Valid input.", "success");
-
-        // Remove any error message
-        removeMessage(input, "error");
+        return true;
       } else {
-        // Error: Change the outline to red and display error message
-        classes.remove(
-          "border-green-600",
-          "dark:border-green-500",
-          "focus:border-green-600"
-        );
-        classes.add(
-          "border-red-600",
-          "dark:border-red-500",
-          "focus:border-red-600"
-        );
+        input.classList.remove("border-green-600", "dark:border-green-500");
+        input.classList.add("border-red-600", "dark:border-red-500");
 
-        // Show the error message
         showMessage(input, "Invalid input. Please check again.", "error");
-
-        // Remove any success message
-        removeMessage(input, "success");
+        return false;
       }
     }
   };
 
-  // Add event listeners to input fields
+  // Event listener for input validation
   form.addEventListener("input", (event) => {
     if (
       event.target.matches(
@@ -144,17 +120,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Prevent form submission if fields are invalid
   form.addEventListener("submit", (event) => {
     const inputs = form.querySelectorAll(
       "input[type='text'], input[type='email'], input[type='password']"
     );
-    inputs.forEach((input) => validateField(input));
-    if (form.querySelector(".border-red-600")) {
-      event.preventDefault();
+    let formIsValid = true;
+
+    inputs.forEach((input) => {
+      if (!validateField(input)) {
+        formIsValid = false;
+      }
+    });
+
+    if (!formIsValid) {
+      event.preventDefault(); // Prevent submission if any field is invalid
     }
   });
 
-  // Example validation function
+  // Input validation for email and fullname
   function validateInput(input) {
     const id = input.id;
     switch (id) {
@@ -162,9 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return /^[a-zA-Z]+ [a-zA-Z]+$/.test(input.value.trim());
       case "email":
         return /^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(input.value.trim());
-      case "password":
-        // Special handling for password, so it won't reach here
-        return true;
       default:
         return false;
     }
