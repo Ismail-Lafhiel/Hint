@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +14,7 @@
         Comments!
     </button>
 
-    <!-- Modal -->
+    <!-- Modal for displaying comments -->
     <div id="myModal" class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center">
         <div class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative">
             <span id="closeModalBtn" class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900">&times;</span>
@@ -35,31 +34,53 @@
                 </div>
             </form>
     
-            <!-- Liste des commentaires -->
+            <!-- List of comments -->
             <% if (comments && comments.length > 0) { %>
-            <ul class="mt-4">
-                <% comments.forEach(comment => { %>
-                    <li class="mb-2 flex items-start">
-                        <img src="" alt="" class="w-10 h-10 rounded-full mr-4">
-                    
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <small>Posted by <strong><%= comment.author.username %></strong> on <%= comment.createdAt.toDateString() %></small>
-                                <p><%= comment.content %></p>
-                            </div>
-                        
-                            <button class="ml-2 text-red-500 hover:text-red-700 focus:outline-none border-none bg-transparent">
-                                <i class="bi bi-heart"></i>
-                            </button>
-                        </div>
-                        
-                    </li>
-                    
-                <% }) %>
-            </ul>
+<!-- List of comments -->
+<ul class="mt-4">
+    <% comments.forEach(comment => { %>
+      <li class="mb-2 flex items-start">
+        <div class="flex justify-between items-center">
+          <div>
+            <small>Posted by <strong><%= comment.author.username %></strong> on <%= comment.createdAt.toDateString() %></small>
+            <p><%= comment.content %></p>
+          </div>
+          <div class="flex items-center">
+            <button 
+              id="likeBtn_<%= comment.id %>" 
+              class="ml-2 text-gray-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
+              onclick="toggleLike(<%= comment.id %>)"
+            >
+              <i class="bi bi-heart<%= comment.userLiked ? ' text-red-500' : '' %>"></i>
+            </button>
+            <span id="likeCount_<%= comment.id %>" class="ml-2 text-gray-900"><%= comment.likes %></span>
+          </div>
+          <button class="ml-2 text-red-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
+            onclick="openDeleteModal(<%= comment.id %>)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </li>
+    <% }) %>
+  </ul>
+  
             <% } else { %>
                 <p>No comments found for this article.</p>
             <% } %>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center">
+        <div class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative">
+            <span id="closeDeleteModalBtn" class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900">&times;</span>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce commentaire ?
+            </div>
+            <div class="modal-footer mt-4 flex justify-center gap-x-4">
+                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" id="cancelDeleteBtn">Annuler</button>
+                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="confirmDeleteBtn">Supprimer</button>
+            </div>
         </div>
     </div>
 
@@ -67,27 +88,85 @@
         var modal = document.getElementById("myModal");
         var btn = document.getElementById("openModalBtn");
         var span = document.getElementById("closeModalBtn");
-
-        // Open the modal
+        var deleteModal = document.getElementById("deleteModal");
+        var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+        var closeDeleteModalBtn = document.getElementById("closeDeleteModalBtn");
+        var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+        var commentIdToDelete = null; // Variable to store the id of the comment to delete
+    
+        // Open the modal for comments
         btn.onclick = function () {
             modal.classList.remove("hidden");
             modal.classList.add("flex");
         }
-
-        // Close the modal by clicking on the x
+    
+        // Close the modal
         span.onclick = function () {
             modal.classList.add("hidden");
             modal.classList.remove("flex");
         }
+    
+        // Open the delete modal
+        function openDeleteModal(id) {
+            commentIdToDelete = id;
+            console.log('Opening delete modal for comment ID:', id);
+            deleteModal.classList.remove("hidden");
+            deleteModal.classList.add("flex");
+        }
 
-        // Close the modal by clicking anywhere outside the content
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.classList.add("hidden");
-                modal.classList.remove("flex");
+        // Close the delete modal
+        function closeDeleteModal() {
+            deleteModal.classList.add("hidden");
+            deleteModal.classList.remove("flex");
+        }
+
+        // Handle the delete request
+        confirmDeleteBtn.onclick = function () {
+            if (commentIdToDelete) {
+                const articleId = '<%= articleId %>'; 
+                const deleteUrl = `/delete/${commentIdToDelete}`; 
+
+                fetch(deleteUrl, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Comment deleted successfully");
+                        location.reload(); 
+                    } else {
+                        console.error("Failed to delete comment");
+                    }
+                    closeDeleteModal();
+                })
+                .catch(error => {
+                    console.error("Error deleting comment:", error);
+                    closeDeleteModal();
+                });
             }
         }
+
+        // Close the delete modal by clicking outside of it
+        window.onclick = function (event) {
+            if (event.target == deleteModal) {
+                closeDeleteModal();
+            }
+        }
+
+
+
+        const likeBtn = document.getElementById(`likeBtn_${commentId}`);
+        const likeCount = document.getElementById(`likeCount_${commentId}`);
+
+        fetch(`/like/${commentId}`, {
+        method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+        likeCount.textContent = data.likes;
+        likeBtn.querySelector('i').classList.add('text-red-500');
+        })
+        .catch(error => console.error('Error liking comment:', error));
+    }
     </script>
 </body>
-
 </html>

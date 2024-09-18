@@ -46,3 +46,28 @@ exports.addCommentByArticle = async (req, res) => {
     }
 };
 
+
+exports.deleteCommentById = async (req, res) => {
+    const { id }  = req.params;  
+
+    try {
+        const result = await Comment.destroy({
+            where: { id: id }
+        });
+
+        if (result) {
+            res.status(200).send("Comment deleted successfully");
+        } else {
+            res.status(404).send("Comment not found");
+        }
+    } catch (err) {
+        console.error("Error deleting comment:", err);
+        res.status(500).send("Error deleting comment");
+    }
+};
+
+
+
+
+
+
