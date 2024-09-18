@@ -1,5 +1,4 @@
-//  config/database.js
-require("dotenv").config(); // Load .env file
+require("dotenv").config();
 
 const { Sequelize } = require("sequelize");
 
