@@ -1,172 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/tailwind.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/tailwind.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <title><%= title %></title>
-</head>
+  </head>
 
-<body class="flex items-center justify-center h-screen">
-    <!-- Button to Open Modal -->
-    <button id="openModalBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Comments!
+  <body class="flex items-center justify-center h-screen">
+    <button
+      id="openModalBtn"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Comments!
     </button>
 
-    <!-- Modal for displaying comments -->
-    <div id="myModal" class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center">
-        <div class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative">
-            <span id="closeModalBtn" class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900">&times;</span>
-            
-            <form action="/comment/<%= articleId %>" method="POST">
-                <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                    <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-                        <label for="comment" class="sr-only">Your comment</label>
-                        <textarea id="comment" name="content" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
-                    </div>
-                    <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
-                        <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                            Post comment
-                        </button>
-                    </div>
-                    <input type="hidden" value="1" name="userId">
-                </div>
-            </form>
-    
-            <!-- List of comments -->
-            <% if (comments && comments.length > 0) { %>
-<!-- List of comments -->
-<ul class="mt-4">
-    <% comments.forEach(comment => { %>
-      <li class="mb-2 flex items-start">
-        <div class="flex justify-between items-center">
-          <div>
-            <small>Posted by <strong><%= comment.author.username %></strong> on <%= comment.createdAt.toDateString() %></small>
-            <p><%= comment.content %></p>
-          </div>
-          <div class="flex items-center">
-            <button 
-              id="likeBtn_<%= comment.id %>" 
-              class="ml-2 text-gray-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
-              onclick="toggleLike(<%= comment.id %>)"
+    <div
+      id="myModal"
+      class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center"
+    >
+      <div
+        class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative"
+      >
+        <span
+          id="closeModalBtn"
+          class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900"
+          >&times;</span
+        >
+
+        <form action="/comment/<%= articleId %>" method="POST">
+          <div
+            class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+          >
+            <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+              <label for="comment" class="sr-only">Your comment</label>
+              <textarea
+                id="comment"
+                name="content"
+                rows="4"
+                class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                placeholder="Write a comment..."
+                required
+              ></textarea>
+            </div>
+            <div
+              class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600"
             >
-              <i class="bi bi-heart<%= comment.userLiked ? ' text-red-500' : '' %>"></i>
-            </button>
-            <span id="likeCount_<%= comment.id %>" class="ml-2 text-gray-900"><%= comment.likes %></span>
+              <button
+                type="submit"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+              >
+                Post comment
+              </button>
+            </div>
+            <input type="hidden" value="1" name="userId" />
           </div>
-          <button class="ml-2 text-red-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
-            onclick="openDeleteModal(<%= comment.id %>)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
-      </li>
-    <% }) %>
-  </ul>
-  
-            <% } else { %>
-                <p>No comments found for this article.</p>
-            <% } %>
-        </div>
+        </form>
+
+        <!-- List of comments -->
+        <% if (comments && comments.length > 0) { %>
+        <ul class="mt-4">
+          <% comments.forEach(comment => { %>
+          <li class="mb-2 flex items-start">
+            <div class="flex justify-between items-center">
+              <div>
+                <small
+                  >Posted by <strong><%= comment.author.username %></strong> on
+                  <%= comment.createdAt.toDateString() %></small
+                >
+                <p><%= comment.content %></p>
+              </div>
+              <div class="flex items-center">
+                <button
+                  id="likeBtn_<%= comment.id %>"
+                  class="ml-2 text-gray-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
+                  onclick="toggleLike(<%= comment.id %>)"
+                >
+                  <i
+                    class="bi bi-heart<%= comment.userLiked ? ' text-red-500' : '' %>"
+                  ></i>
+                </button>
+                <span
+                  id="likeCount_<%= comment.id %>"
+                  class="ml-2 text-gray-900"
+                  ><%= comment.likes %></span
+                >
+              </div>
+              <button
+                class="ml-2 text-red-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
+                onclick="openDeleteModal(<%= comment.id %>)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+
+        <% } else { %>
+        <p>No comments found for this article.</p>
+        <% } %>
+      </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div id="deleteModal" class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center">
-        <div class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative">
-            <span id="closeDeleteModalBtn" class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900">&times;</span>
-            <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer ce commentaire ?
-            </div>
-            <div class="modal-footer mt-4 flex justify-center gap-x-4">
-                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" id="cancelDeleteBtn">Annuler</button>
-                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="confirmDeleteBtn">Supprimer</button>
-            </div>
+    <div
+      id="deleteModal"
+      class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center"
+    >
+      <div
+        class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative"
+      >
+        <span
+          id="closeDeleteModalBtn"
+          class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900"
+          >&times;</span
+        >
+        <div class="modal-body">
+          Êtes-vous sûr de vouloir supprimer ce commentaire ?
         </div>
+        <div class="modal-footer mt-4 flex justify-center gap-x-4">
+          <button
+            type="button"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+            id="cancelDeleteBtn"
+          >
+            Annuler
+          </button>
+          <button
+            type="button"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            id="confirmDeleteBtn"
+          >
+            Supprimer
+          </button>
+        </div>
+      </div>
     </div>
 
     <script>
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("openModalBtn");
-        var span = document.getElementById("closeModalBtn");
-        var deleteModal = document.getElementById("deleteModal");
-        var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-        var closeDeleteModalBtn = document.getElementById("closeDeleteModalBtn");
-        var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
-        var commentIdToDelete = null; // Variable to store the id of the comment to delete
-    
-        // Open the modal for comments
-        btn.onclick = function () {
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
-        }
-    
-        // Close the modal
-        span.onclick = function () {
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
-        }
-    
-        // Open the delete modal
-        function openDeleteModal(id) {
-            commentIdToDelete = id;
-            console.log('Opening delete modal for comment ID:', id);
-            deleteModal.classList.remove("hidden");
-            deleteModal.classList.add("flex");
-        }
+              var modal = document.getElementById("myModal");
+              var btn = document.getElementById("openModalBtn");
+              var span = document.getElementById("closeModalBtn");
+              var deleteModal = document.getElementById("deleteModal");
+              var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+              var closeDeleteModalBtn = document.getElementById("closeDeleteModalBtn");
+              var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+              var commentIdToDelete = null; 
 
-        // Close the delete modal
-        function closeDeleteModal() {
-            deleteModal.classList.add("hidden");
-            deleteModal.classList.remove("flex");
-        }
+              // Open the modal for comments
+              btn.onclick = function () {
+                  modal.classList.remove("hidden");
+                  modal.classList.add("flex");
+              }
 
-        // Handle the delete request
-        confirmDeleteBtn.onclick = function () {
-            if (commentIdToDelete) {
-                const articleId = '<%= articleId %>'; 
-                const deleteUrl = `/delete/${commentIdToDelete}`; 
+              // Close the modal
+              span.onclick = function () {
+                  modal.classList.add("hidden");
+                  modal.classList.remove("flex");
+              }
 
-                fetch(deleteUrl, {
-                    method: 'DELETE',
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Comment deleted successfully");
-                        location.reload(); 
-                    } else {
-                        console.error("Failed to delete comment");
-                    }
-                    closeDeleteModal();
-                })
-                .catch(error => {
-                    console.error("Error deleting comment:", error);
-                    closeDeleteModal();
-                });
-            }
-        }
+              // Open the delete modal
+              function openDeleteModal(id) {
+                  commentIdToDelete = id;
+                  console.log('Opening delete modal for comment ID:', id);
+                  deleteModal.classList.remove("hidden");
+                  deleteModal.classList.add("flex");
+              }
 
-        // Close the delete modal by clicking outside of it
-        window.onclick = function (event) {
-            if (event.target == deleteModal) {
-                closeDeleteModal();
-            }
-        }
+              // Close the delete modal
+              function closeDeleteModal() {
+                  deleteModal.classList.add("hidden");
+                  deleteModal.classList.remove("flex");
+              }
+
+              // Handle the delete request
+              confirmDeleteBtn.onclick = function () {
+                  if (commentIdToDelete) {
+                      const articleId = '<%= articleId %>';
+                      const deleteUrl = `/delete/${commentIdToDelete}`;
+
+                      fetch(deleteUrl, {
+                          method: 'DELETE',
+                      })
+                      .then(response => {
+                          if (response.ok) {
+                              console.log("Comment deleted successfully");
+                              location.reload();
+                          } else {
+                              console.error("Failed to delete comment");
+                          }
+                          closeDeleteModal();
+                      })
+                      .catch(error => {
+                          console.error("Error deleting comment:", error);
+                          closeDeleteModal();
+                      });
+                  }
+              }
+
+              // Close the delete modal by clicking outside of it
+              window.onclick = function (event) {
+                  if (event.target == deleteModal) {
+                      closeDeleteModal();
+                  }
+              }
 
 
+              function toggleLike(commentId) {
+                  const likeBtn = document.getElementById(`likeBtn_${commentId}`);
+                  const likeCount = document.getElementById(`likeCount_${commentId}`);
+                  const userId = 1; 
 
-        const likeBtn = document.getElementById(`likeBtn_${commentId}`);
-        const likeCount = document.getElementById(`likeCount_${commentId}`);
+                  const isLiked = likeBtn.querySelector('i').classList.contains('text-red-500');
+                  const method = isLiked ? 'DELETE' : 'GET';
+                  const likeUrl = `/like/${commentId}/${encodeURIComponent(userId)}`;
 
-        fetch(`/like/${commentId}`, {
-        method: 'GET',
-        })
-        .then(response => response.json())
-        .then(data => {
-        likeCount.textContent = data.likes;
-        likeBtn.querySelector('i').classList.add('text-red-500');
-        })
-        .catch(error => console.error('Error liking comment:', error));
-    }
+                  fetch(likeUrl, {
+                      method: method,
+                      headers: {
+                          'Accept': 'application/json',
+                      },
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          likeCount.textContent = data.likes;
+                          likeBtn.querySelector('i').classList.toggle('text-red-500');
+                      } else {
+                          console.log('Error toggling like:', data.message);
+                      }
+                  })
+                  .catch(error => console.error('Error toggling like:', error));
+              }
+
+
+      const commentsLiked = <%- JSON.stringify(comments).replace(/</g, '\\u003c') %>;
+      
+      document.addEventListener('DOMContentLoaded', () => {
+          commentsLiked.forEach(comment => {
+              const likeBtn = document.getElementById(`likeBtn_${comment.id}`);
+              const likeCount = document.getElementById(`likeCount_${comment.id}`);
+
+              if (comment.userLiked) {
+                  likeBtn.querySelector('i').classList.add('text-red-500');
+              }
+          });
+      });
     </script>
-</body>
+  </body>
 </html>
