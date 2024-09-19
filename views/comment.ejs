@@ -52,7 +52,7 @@
             >
               <button
                 type="submit"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-Violet-40 rounded-lg focus:ring-4 focus:bg-Violet-50 dark:focus:ring-blue-900 hover:bg-blue-800"
               >
                 Post comment
               </button>
@@ -66,7 +66,7 @@
         <ul class="mt-4">
           <% comments.forEach(comment => { %>
           <li class="mb-2 flex items-start">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center gap-[9rem]">
               <div>
                 <small
                   >Posted by <strong><%= comment.author.username %></strong> on
@@ -77,11 +77,11 @@
               <div class="flex items-center">
                 <button
                   id="likeBtn_<%= comment.id %>"
-                  class="ml-2 text-gray-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
+                  class="ml-2 text-gray-500 hover:text-Violet-50 focus:outline-none border-none bg-transparent"
                   onclick="toggleLike(<%= comment.id %>)"
                 >
                   <i
-                    class="bi bi-heart<%= comment.userLiked ? ' text-red-500' : '' %>"
+                    class="bi bi-heart-fill<%= comment.userLiked ? ' text-Violet-50' : '' %>"
                   ></i>
                 </button>
                 <span
@@ -89,13 +89,13 @@
                   class="ml-2 text-gray-900"
                   ><%= comment.likes %></span
                 >
-              </div>
-              <button
-                class="ml-2 text-red-500 hover:text-red-700 focus:outline-none border-none bg-transparent"
-                onclick="openDeleteModal(<%= comment.id %>)"
-              >
-                <i class="bi bi-trash"></i>
+                <button
+                  class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none border-none bg-transparent"
+                  onclick="openDeleteModal(<%= comment.id %>)"
+                >
+                  <i class="bi bi-trash"></i>
               </button>
+              </div>
             </div>
           </li>
           <% }) %>
@@ -114,28 +114,24 @@
       <div
         class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative"
       >
-        <span
-          id="closeDeleteModalBtn"
-          class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900"
-          >&times;</span
-        >
-        <div class="modal-body">
-          Êtes-vous sûr de vouloir supprimer ce commentaire ?
+
+        <div class="modal-body text-center">
+          Are you sure you want to delete this comment?
         </div>
         <div class="modal-footer mt-4 flex justify-center gap-x-4">
           <button
             type="button"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+            class="bg-Violet-40 hover:bg-Violet-50 text-white font-bold py-2 px-4 rounded mr-2"
             id="cancelDeleteBtn"
           >
-            Annuler
+            Cancel
           </button>
           <button
             type="button"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            class="bg-Violet-30 hover:bg-Violet-50 text-white font-bold py-2 px-4 rounded"
             id="confirmDeleteBtn"
           >
-            Supprimer
+            Delete
           </button>
         </div>
       </div>
@@ -166,7 +162,6 @@
               // Open the delete modal
               function openDeleteModal(id) {
                   commentIdToDelete = id;
-                  console.log('Opening delete modal for comment ID:', id);
                   deleteModal.classList.remove("hidden");
                   deleteModal.classList.add("flex");
               }
@@ -206,50 +201,80 @@
               window.onclick = function (event) {
                   if (event.target == deleteModal) {
                       closeDeleteModal();
+                  } else if (event.target == modal) {
+                      modal.classList.add("hidden");
+                      modal.classList.remove("flex");
                   }
               }
 
-
-              function toggleLike(commentId) {
-                  const likeBtn = document.getElementById(`likeBtn_${commentId}`);
-                  const likeCount = document.getElementById(`likeCount_${commentId}`);
-                  const userId = 1; 
-
-                  const isLiked = likeBtn.querySelector('i').classList.contains('text-red-500');
-                  const method = isLiked ? 'DELETE' : 'GET';
-                  const likeUrl = `/like/${commentId}/${encodeURIComponent(userId)}`;
-
-                  fetch(likeUrl, {
-                      method: method,
-                      headers: {
-                          'Accept': 'application/json',
-                      },
-                  })
-                  .then(response => response.json())
-                  .then(data => {
-                      if (data.success) {
-                          likeCount.textContent = data.likes;
-                          likeBtn.querySelector('i').classList.toggle('text-red-500');
-                      } else {
-                          console.log('Error toggling like:', data.message);
-                      }
-                  })
-                  .catch(error => console.error('Error toggling like:', error));
+              cancelDeleteBtn.onclick = function () {
+                  closeDeleteModal();
               }
 
 
-      const commentsLiked = <%- JSON.stringify(comments).replace(/</g, '\\u003c') %>;
-      
-      document.addEventListener('DOMContentLoaded', () => {
-          commentsLiked.forEach(comment => {
-              const likeBtn = document.getElementById(`likeBtn_${comment.id}`);
-              const likeCount = document.getElementById(`likeCount_${comment.id}`);
+function toggleLike(commentId) {
+    const likeBtn = document.getElementById(`likeBtn_${commentId}`);
+    const likeCount = document.getElementById(`likeCount_${commentId}`);
+    const userId = 1;  // Fixation de l'ID utilisateur
 
-              if (comment.userLiked) {
-                  likeBtn.querySelector('i').classList.add('text-red-500');
-              }
-          });
-      });
+    // Vérifie si le cœur est déjà colorié en Violet
+    const isLiked = likeBtn.querySelector('i').classList.contains('text-Violet-40');
+    const method = isLiked ? 'DELETE' : 'GET';
+    const likeUrl = `/like/${commentId}/${encodeURIComponent(userId)}`;
+
+    fetch(likeUrl, {
+        method: method,
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mettre à jour le nombre de likes
+            likeCount.textContent = data.likes;
+
+            // Stocker l'état du like dans localStorage
+            if (isLiked) {
+                // Si l'utilisateur retire le like, on revient à la couleur gris et on retire du localStorage
+                likeBtn.querySelector('i').classList.remove('text-Violet-40');
+                likeBtn.querySelector('i').classList.add('text-gray-500');
+                localStorage.removeItem(`like_${commentId}`);
+            } else {
+                // Si l'utilisateur ajoute un like, on met la couleur Violet et on stocke l'état dans localStorage
+                likeBtn.querySelector('i').classList.remove('text-gray-500');
+                likeBtn.querySelector('i').classList.add('text-Violet-40');
+                localStorage.setItem(`like_${commentId}`, 'true');
+            }
+        } else {
+            console.log('Error toggling like:', data.message);
+        }
+    })
+    .catch(error => console.error('Error toggling like:', error));
+}
+
+// Lors du chargement de la page, applique la couleur aux likes existants à partir du localStorage
+document.addEventListener('DOMContentLoaded', () => {
+    const commentsLiked = <%- JSON.stringify(comments).replace(/</g, '\\u003c') %>;
+
+    commentsLiked.forEach(comment => {
+        const likeBtn = document.getElementById(`likeBtn_${comment.id}`);
+        const likeCount = document.getElementById(`likeCount_${comment.id}`);
+
+        // Vérifie si le commentaire est liké dans localStorage
+        const isLikedInStorage = localStorage.getItem(`like_${comment.id}`);
+
+        // Si l'utilisateur a déjà aimé un commentaire, applique la couleur Violet
+        if (isLikedInStorage) {
+            likeBtn.querySelector('i').classList.remove('text-gray-500');
+            likeBtn.querySelector('i').classList.add('text-Violet-40');
+        } else {
+            // Sinon, laisse le cœur en gris
+            likeBtn.querySelector('i').classList.add('text-gray-500');
+        }
+    });
+});
+
     </script>
   </body>
 </html>
