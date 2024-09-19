@@ -1,31 +1,25 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-const User = require("./User");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const Article = sequelize.define(
-  "Article",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
+const Article = sequelize.define('Article', {
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  {
-    timestamps: true,
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  coverImage: {
+    type: DataTypes.STRING,
+    allowNull: true,
   }
-);
-
-// Define relationship: an article belongs to a user
-Article.belongsTo(User, { foreignKey: "userId", as: "author", onDelete: 'CASCADE' });
-User.hasMany(Article, { foreignKey: "userId", onDelete: 'CASCADE' });
+}, {
+  timestamps: true,
+});
 
 module.exports = Article;
