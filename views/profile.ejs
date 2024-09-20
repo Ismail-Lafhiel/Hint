@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/tailwind.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header style="box-shadow: 0 0 10px 2px #00000020;">
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="/" class="flex items-center">
+                    <img src="/img/hint-lg.svg" style="height: 45px;" alt="Flowbite Logo" />
+                </a>
+                <div class="flex items-center lg:order-2">
+                    <div class="flex items-center gap-6 cursor-pointer">
+                        <img class="rounded rounded-full border border-2 border-black" style="border-radius: 50%;margin-right: 10px;" height="40px" width="40px" src="/img/default.jpg" alt="">
+                        <div class="font-medium dark:text-white">
+                            <div style="font-size: 15px;"><%= profile.fullname %></div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400" style="font-size: 1x2px;">
+                                @<%= profile.username %>
+                            </div>
+                        </div>
+                    </div>
+                    <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                        <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+                <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+                    <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                        <li>
+                            <a href="#" class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Company</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Marketplace</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Team</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="main-page">
+        <div class="info-card" style="background-image: url('<%= profile.banner %>');">
+            <div class="editor">
+                <span>
+                    <i class="bi bi-pencil-square"></i>
+                </span>
+            </div>
+            <div class="user-banner">
+                <div class="wrapper">
+                    <div class="user-img" style="background-image: url('<%= profile.image %>');">
+                        
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">
+                            <%= profile.fullname %>
+                        </div>
+                        <div class="user-username">
+                            @<%= profile.username %>
+                        </div>
+                        <div class="user-bio">
+                            <%= profile.bio %>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-actions">
+                    <button class="user-action-btn" onclick="modalist('info')">Edit Info</button>
+                    <button class="user-action-btn">Share</button>
+                    <button class="user-action-btn">Report</button>
+                </div>
+            </div>
+        </div>
+        <div class="stats-card" style="background-image: linear-gradient(90deg, <%=profile.color1%>, <%=profile.color2%>, <%=profile.color3%>);">
+            <h1 class="stats-title">
+                Stats
+            </h1>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-title">
+                        Posts
+                    </div>
+                    <div class="stat-value">
+                        20
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">
+                        Reactions
+                    </div>
+                    <div class="stat-value">
+                        254
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">
+                        Likes
+                    </div>
+                    <div class="stat-value">
+                        204k
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="under-profile">
+            <div class="article-list" style="background-image: linear-gradient(135deg, <%= profile.color1 %>, <%= profile.color2 %>, <%= profile.color3 %>);">
+                <div class="articles-header">
+                    <h1 class="articles-title">
+                        Articles
+                    </h1>
+                    <button class="articles-action">View All</button>
+                </div>
+                <!-- <div class="no-content-list">
+                    <i class="bi bi-wind"></i>
+                    <p>
+                        No Articles Yet
+                    </p>
+                </div> -->
+                <!-- Article list here : -->
+                <div class="article">
+                    <div class="article-img" style="background-image: url('/img/default.jpg');">
+                        
+                    </div>
+                    <div class="article-info">
+                        <div class="article-title">
+                            Event Loop in JavaScript
+                        </div>
+                        <div class="article-desc">
+                            Lorem ipsum dolor sit amet elit.
+                        </div>
+                        
+                    </div>
+                    <div class="article-actions" onclick="showActions(this.lastElementChild)">
+                        <i class="bi bi-three-dots"></i>
+                        <div class="actions-">
+                            <button class="action">Read <i class="bi bi-book"></i></button>
+                            <button class="action">Edit <i class="bi bi-pen"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="article">
+                    <div class="article-img" style="background-image: url('/img/default.jpg');">
+                        
+                    </div>
+                    <div class="article-info">
+                        <div class="article-title">
+                            Event Loop in JavaScript
+                        </div>
+                        <div class="article-desc">
+                            Lorem ipsum dolor sit amet elit.
+                        </div>
+                        
+                    </div>
+                    <div class="article-actions" onclick="showActions(this.lastElementChild)">
+                        <i class="bi bi-three-dots"></i>
+                        <div class="actions-">
+                            <button class="action">Read <i class="bi bi-book"></i></button>
+                            <button class="action">Edit <i class="bi bi-pen"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="articles-cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="card-title">
+                            Article 1
+                            <p class="card-date">
+                                Jul 14 
+                                <strong>By</strong>
+                                <span class="card-author"><%= profile.username %></span>
+                            </p>
+                        </h1>
+                        <div class="card-actions" onclick="showActions(this.lastElementChild)">
+                            <i class="bi bi-three-dots"></i>
+                            <div class="actions- actions-card" >
+                                <button class="action">Edit <i class="bi bi-pen"></i></button>
+                                <button class="action">Delete <i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-img" style="background-image: url('');">
+                            
+                        </div>
+                        <div class="card-desc">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-action">Read <i class="bi bi-book"></i></button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="card-title">
+                            Article 1
+                            <p class="card-date">
+                                Jul 14 
+                                <strong>By</strong>
+                                <span class="card-author"><%= profile.username %></span>
+                            </p>
+                        </h1>
+                        <div class="card-actions" onclick="showActions(this.lastElementChild)">
+                            <i class="bi bi-three-dots"></i>
+                            <div class="actions- actions-card" >
+                                <button class="action">Edit <i class="bi bi-pen"></i></button>
+                                <button class="action">Delete <i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-img" style="background-image: url('');">
+                            
+                        </div>
+                        <div class="card-desc">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-action">Read <i class="bi bi-book"></i></button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="card-title">
+                            Article 1
+                            <p class="card-date">
+                                Jul 14 
+                                <strong>By</strong>
+                                <span class="card-author"><%= profile.username %></span>
+                            </p>
+                        </h1>
+                        <div class="card-actions" onclick="showActions(this.lastElementChild)">
+                            <i class="bi bi-three-dots"></i>
+                            <div class="actions- actions-card" >
+                                <button class="action">Edit <i class="bi bi-pen"></i></button>
+                                <button class="action">Delete <i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-img" style="background-image: url('');">
+                            
+                        </div>
+                        <div class="card-desc">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-action">Read <i class="bi bi-book"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div class="articles-big">
+                <div class="no-content-big">
+                    <i class="bi bi-wind"></i>
+                    <p>
+                        No Articles Yet
+                    </p>
+                </div>
+            </div> -->
+        </div>
+    </main>
+    <footer>
+        <div class="footer-list">
+            <a href="#" class="footer-link">Contact</a>
+            <a href="#" class="footer-link">About</a>
+            <a href="#" class="footer-link">Terms</a>
+            <a href="#" class="footer-link">Privacy</a>
+            <a href="#" class="footer-link">Settings</a>
+        </div>
+    </footer>
+    <!-- Modals here : -->
+    <div class="modal" id="info">
+        <div class="modal-header">
+            <h1 class="modal-title">
+                Edit Profile
+            </h1>
+            <button class="modal-close" onclick="this.parentNode.parentNode.style.display = 'none';hideHider();">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="user-edit-pic">
+                <div class="edit-img-wrapper">
+                    <p class="img-title">
+                        Profile Picture
+                    </p>
+                    <p class="input-error" id="pic-error"></p>
+                    <label for="pic" class="user-edit-img" style="background-image: url('<%= profile.image %>');">
+                        <div class="overlay-edit" title="Edit">
+                            <span>
+                                <i class="bi bi-pencil-square"></i>
+                            </span>
+                        </div>
+                    </label>
+                    <button class="set-default" onclick="setDefault('pp')">
+                        Set Default
+                    </button>
+                </div>
+
+                <div class="edit-img-wrapper">
+                    <p class="img-title">
+                        Banner
+                    </p>
+                    <p class="input-error" id="bg-error"></p>
+                    <label for="bg" class="user-edit-banner" style="background-image: url('<%= profile.banner %>');">
+                        <div class="overlay-edit" title="Edit">
+                            <span>
+                                <i class="bi bi-pencil-square"></i>
+                            </span>
+                        </div>
+                    </label>
+                    <button class="set-default" onclick="setDefault('bg')">
+                        Set Default
+                    </button>
+                </div>
+            </div>
+            <form enctype="multipart/form-data" onsubmit="return false;" id="edit-form">
+                <input type="hidden" name="id" id="id" value="<%= profile.id %>">
+                <input type="file" name="banner" id="bg" style="display: none;" onchange="showCropperBg(this)">
+                <input type="hidden" name="defaultBg" id="defaultBg" value="0">
+                <input type="file" name="image" id="pic" style="display: none;" onchange="showCropper(this)">
+                <input type="hidden" name="defaultPic" id="defaultPic" value="0">
+                <div class="form-group">
+                    <label for="fullname">Fullname</label>
+                    <input type="text" name="fullname" id="fullname" value="<%= profile.fullname %>" class="required-form" required>
+                    <p class="input-error" id="fullname-error"></p>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" value="<%= profile.username %>" class="required-form" required>
+                    <p class="input-error" id="username-error"></p>
+                </div>
+                <div class="form-group">
+                    <label for="username">Bio</label>
+                    <input type="text" name="bio" id="bio" value="<%= profile.bio %>">
+                    <p class="input-error" id="bio-error"></p>
+                </div>
+                <div class="color-setter">
+                    <label class="color-label" for="color">Color Theme</label>
+                    <div class="colors-wrapper">
+                        <input type="color" class="colors" name="color1" id="color1" value="<%= profile.color1 %>">
+                        <input type="color" class="colors" name="color2" id="color2" value="<%= profile.color2 %>">
+                        <input type="color" class="colors" name="color3" id="color3" value="<%= profile.color3 %>">
+                    </div>
+                    <p class="info">
+                        <i class="bi bi-i"></i>
+                        We advise users to choose dark colors for the best accessibility.
+                    </p>
+                </div>
+                <p id="form-error">
+
+                </p>
+                <div class="edit-btn-wrapper">
+                    <button class="submit-edit" id="submit" onclick="submitForm(this)">
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<div id="hider"></div>
+
+<div class="cropper" id="cropper">
+    <div class="cropper-header">
+        <h1 class="cropper-title">
+            Crop Image
+        </h1>
+        <button class="modal-close" onclick="cancelCropper()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="cropper-body">
+        <img src="" alt="" id="cropper-image">
+    </div>
+    <div class="cropper-footer">
+        <button class="submit-edit" onclick="cropImage()">
+            Crop
+        </button>
+    </div>
+</div>
+
+<div class="cropper" id="cropperBg">
+    <div class="cropper-header">
+        <h1 class="cropper-title">
+            Crop Image
+        </h1>
+        <button class="modal-close" onclick="cancelCropperBg()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="cropper-body">
+        <img src="" alt="" id="cropper-image-bg">
+    </div>
+    <div class="cropper-footer">
+        <button class="submit-edit" onclick="cropImageBg()">
+            Crop
+        </button>
+    </div>
+</div>
+
+</html>
+<script src="/js/script.js"></script>
+<script defer>
+    let cropper = null;
+    let cropperBg = null;
+
+    function showCropper(el) {
+        if (el.files.length === 0) {
+            return;
+        }
+        document.getElementById('cropper').style.display = "none";
+        document.getElementById('cropper').style.display = "flex";
+        document.getElementById('hider').style.display = "block";
+        document.getElementById('cropper-image').src = URL.createObjectURL(el.files[0]);
+        initializeCropper(document.getElementById('cropper-image'));
+    }
+
+    function showCropperBg(el) {
+        if (el.files.length === 0) {
+            return;
+        }
+        document.getElementById('cropperBg').style.display = "none";
+        document.getElementById('cropperBg').style.display = "flex";
+        document.getElementById('hider').style.display = "block";
+        document.getElementById('cropper-image-bg').src = URL.createObjectURL(el.files[0]);
+        initializeCropperBg(document.getElementById('cropper-image-bg'));
+    }
+
+    function initializeCropper(image) {
+        cropper = new Cropper(image, {
+            aspectRatio: 1 / 1,
+        });
+    }
+
+    function initializeCropperBg(image) {
+        cropperBg = new Cropper(image, {
+            aspectRatio: 16 / 9,
+        });
+    }
+
+    function cancelCropper() {
+        document.getElementById('cropper').style.display = "none";
+        document.getElementById('hider').style.display = "none";
+        document.getElementById('cropper-image').src = "";
+        document.getElementById('pic').value = "";
+    }
+
+    function cancelCropperBg() {
+        document.getElementById('cropperBg').style.display = "none";
+        document.getElementById('hider').style.display = "none";
+        document.getElementById('cropper-image-bg').src = "";
+        document.getElementById('bg').value = "";
+    }
+
+    function cropImage() {
+        const canvas = document.getElementById('cropper-image').cropper.getCroppedCanvas();
+        const dataURL = canvas.toDataURL();
+        document.querySelector('.user-edit-img').style.backgroundImage = `url(${dataURL})`;
+        document.getElementById('cropper-image').src = "";
+        document.getElementById('cropper').style.display = "none";
+        cropper.getCroppedCanvas().toBlob(function(blob) {
+           var file = new File([blob], "cropped_image.png", { type: "image/png" });
+
+           var dataTransfer = new DataTransfer();
+           dataTransfer.items.add(file);
+
+           var input = document.getElementById('pic');
+           input.files = dataTransfer.files;
+       });
+       document.getElementById('defaultPic').value = "0";
+       cropper.destroy();
+    }
+
+    function cropImageBg() {
+        const canvas = document.getElementById('cropper-image-bg').cropper.getCroppedCanvas();
+        const dataURL = canvas.toDataURL();
+        document.querySelector('.user-edit-banner').style.backgroundImage = `url(${dataURL})`;
+        document.getElementById('cropper-image-bg').src = "";
+        document.getElementById('cropperBg').style.display = "none";
+        cropperBg.getCroppedCanvas().toBlob(function(blob) {
+           var file = new File([blob], "cropped_image.png", { type: "image/png" });
+
+           var dataTransfer = new DataTransfer();
+           dataTransfer.items.add(file);
+
+           var input = document.getElementById('bg');
+           input.files = dataTransfer.files;
+
+       });
+        document.getElementById('defaultBg').value = "0";
+       cropperBg.destroy();
+    }
+</script>

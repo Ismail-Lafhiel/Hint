@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
+const RegisterController = require("../controllers/RegisterController");
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('register', { title: 'Register Page' });
-});
+router.get("/", RegisterController.showRegisterForm);
+router.post("/", RegisterController.registerUser);
 
 module.exports = router;
