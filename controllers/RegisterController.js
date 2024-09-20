@@ -27,11 +27,10 @@ exports.registerUser = async (req, res) => {
   }
 
   // Validate strong password (at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, 1 special character)
-  const strongPasswordPattern =
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const strongPasswordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8}$/;
   if (!password || !strongPasswordPattern.test(password)) {
     errors.push(
-      "Password must be at least 8 characters long, contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character."
+      "Password must be at least 8 characters long, and doesn't contain only numbers."
     );
   }
 
