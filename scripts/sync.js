@@ -13,4 +13,5 @@ async function syncDatabase() {
   }
 }
 
-syncDatabase();
+// Export the sync function
+module.exports = syncDatabase;
