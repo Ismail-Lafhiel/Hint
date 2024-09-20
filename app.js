@@ -38,6 +38,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware pour gérer les erreurs
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   const isDev = app.get('env') === 'development';
