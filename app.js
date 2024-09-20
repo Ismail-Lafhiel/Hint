@@ -5,7 +5,7 @@ const syncDatabase = require("./scripts/sync");
 const session = require("express-session");
 const flash = require("connect-flash");
 const { redirectIfAuthenticated } = require("./middlewares/authMiddleware");
-const globalVarsMiddleware = require("./middlewares/globalVarsMiddleware"); // Import your new middleware
+const globalVarsMiddleware = require("./middlewares/globalVarsMiddleware");
 require("dotenv").config();
 
 const app = express();
@@ -39,13 +39,10 @@ syncDatabase().then(() => {
   const registerRouter = require("./routes/register");
   const loginRouter = require("./routes/login");
   const logoutRouter = require("./routes/logout");
-
-  app.use(redirectIfAuthenticated);
   app.use("/", indexRouter);
-  app.use("/register", registerRouter);
-  app.use("/login", loginRouter);
+  app.use("/register", redirectIfAuthenticated, registerRouter);
+  app.use("/login", redirectIfAuthenticated, loginRouter);
   app.use("/logout", logoutRouter);
-
   app.listen(3000, () => {
     console.log("Server running on port 3000");
   });
