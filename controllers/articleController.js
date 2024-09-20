@@ -48,7 +48,7 @@ module.exports = {
         coverImage
       });
 
-      res.redirect('/articles/list');
+      res.redirect('/articles/listes');
     } catch (error) {
       console.error('Error saving article:', error);
       req.flash('errorMessage', error.message || 'An error occurred while creating the article.');
@@ -72,7 +72,7 @@ module.exports = {
         });
       });
   
-      res.render('articles/list', { title: 'Articles', articles });
+      res.render('articles/listes', { title: 'Articles', articles });
     } catch (error) {
       console.error('Error retrieving articles:', error);
       res.status(500).render('error', { message: 'Server error while retrieving articles.' });
