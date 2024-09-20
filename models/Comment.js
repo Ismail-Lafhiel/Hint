@@ -15,6 +15,10 @@ const Comment = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    likes: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: true,
