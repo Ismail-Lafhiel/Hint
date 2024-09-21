@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
       case "email":
         return validateEmail(input);
       case "password":
-        return validatePassword(input);
+        // Skip validation for the password field
+        return true;
       default:
         return false;
     }
@@ -72,25 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const validatePassword = (input) => {
-    const value = input.value.trim();
-
-    removeMessage(input, "error");
-    removeMessage(input, "success");
-
-    if (value.length === 0) {
-      showMessage(input, "Password is required.", "error");
-      input.classList.add("border-red-600", "dark:border-red-500");
-      input.classList.remove("border-green-600", "dark:border-green-500");
-      return false;
-    } else {
-      showMessage(input, "Password is provided.", "success");
-      input.classList.add("border-green-600", "dark:border-green-500");
-      input.classList.remove("border-red-600", "dark:border-red-500");
-      return true;
-    }
-  };
-
   form.addEventListener("input", (event) => {
     if (
       event.target.matches(
@@ -105,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Form submission triggered");
 
     const inputs = form.querySelectorAll(
-      "input[type='text'], input[type='email'], input[type='password']"
+      "input[type='text'], input[type='email']"
     );
     let formIsValid = true;
 
