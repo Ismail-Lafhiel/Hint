@@ -24,8 +24,8 @@
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-8">
       <% articles.forEach(article => { %>
-        <div class="card relative w-full max-w-sm rounded-xl shadow-lg transform transition-transform hover:scale-105">
-            <!-- User profile, post date, and options (three dots) -->
+        <div class="card relative w-full max-w-sm rounded-xl shadow-lg transform transition-transform hover:scale-102">
+          <!-- User profile, post date, and options (three dots) -->
             <div class="flex justify-between px-10 items-center p-4 bg-white rounded-t-xl">
               <div class="flex items-center">
                 <img src="<%= article.User.image %>" alt="User Profile" class="w-10 h-10 rounded-full">
@@ -73,7 +73,7 @@
           
             <!-- Card image with overlay -->
             <div class="relative">
-              <a href="#">
+              <a href="/articles/<%= article.id %>">
                 <img src="<%= article.coverImage %>" alt="<%= article.title %>" class="card-image w-full h-48 object-cover rounded-t-xl transition-opacity duration-300">
                 <div class="overlay absolute inset-0 bg-[#4e4e4e6a] flex items-center justify-center opacity-0 transition-opacity duration-300">
                   <span class="text-white text-lg font-semibold">Read More</span>
@@ -84,7 +84,7 @@
             <!-- Card content -->
             <div class="card-content height p-4 line-clamp-2 bg-white rounded-b-xl">
               <h2 class="card-title text-xl mb-5 font-semibold "><%= article.title %></h2>
-              <p class="card-description overflow-hidden  "><%- article.content %></p>
+              <p class="card-description overflow-hidden line-clamp-3  "><%- article.description %></p>
             </div>
           
             <div class="flex justify-between p-4 bg-gray-200 rounded-lg  text-gray-700 dark:text-gray-300">

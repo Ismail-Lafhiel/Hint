@@ -9,7 +9,6 @@ const globalVarsMiddleware = require("./middlewares/globalVarsMiddleware");
 require("dotenv").config();
 const crypto = require('crypto');
 
-
 const app = express();
 
 // Middleware de session
@@ -17,7 +16,8 @@ const secretkey = crypto.randomBytes(64).toString('hex');
 app.use(session({
   secret: secretkey, 
   resave: false,  
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { secure: false },
 }));
 
 app.use(flash());
@@ -42,22 +42,12 @@ app.set("views", path.join(__dirname, "views"));
 // Middleware pour les fichiers statiques
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
-
 // Middleware pour gérer les erreurs
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   const isDev = app.get('env') === 'development';
   res.status(500).render('error', {
-    message: 'Erreur interne du serveur',
+    message: 'Erreur interne du serveur' + res.Error,
     error: isDev ? err : {}
   });
 });
@@ -71,23 +61,16 @@ app.use(globalVarsMiddleware);
 
 // Sync database and start server
 syncDatabase().then(() => {
-  const indexRouter = require("./routes/index");
-  const registerRouter = require("./routes/register");
-  const loginRouter = require("./routes/login");
-  const passwordRecoveryRouter = require("./routes/passwordRecovery");
-  const passwordUpdateRouter = require("./routes/passwordUpdate");
-  const logoutRouter = require("./routes/logout");
-  app.use("/", indexRouter);
-  app.use("/register", redirectIfAuthenticated, registerRouter);
-  app.use("/login", redirectIfAuthenticated, loginRouter);
-  app.use("/passwordRecovery", redirectIfAuthenticated, passwordRecoveryRouter);
-  app.use("/update-password", passwordUpdateRouter);
-  app.use("/logout", logoutRouter);
+  app.use("/login", redirectIfAuthenticated, require("./routes/login"));
+  app.use("/passwordRecovery", redirectIfAuthenticated, require("./routes/passwordRecovery"));
+  app.use("/update-password", require("./routes/passwordUpdate"));
+  app.use("/logout", require("./routes/logout"));
 
-// Démarrer le serveur après la synchronisation de la base de données
-syncDatabase().then(() => {
+  // Démarrer le serveur après la synchronisation de la base de données
   const port = process.env.PORT || 3001;
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
+}).catch(error => {
+  console.error('Database synchronization failed:', error);
 });

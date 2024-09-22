@@ -55,6 +55,7 @@ async function seedRandomArticles(count) {
       articles.push({
         title: faker.lorem.sentence(),
         content: faker.lorem.paragraphs(),
+        description: faker.lorem.paragraphs(),
         userId: userIds.length ? userIds[Math.floor(Math.random() * userIds.length)] : null,
         coverImage : "/images/backgroundform.webp"
       });
