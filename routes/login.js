@@ -1,19 +1,11 @@
-const express = require('express');
+const express = require("express");
+const LoginController = require("../controllers/LoginController");
 const router = express.Router();
+const { redirectIfAuthenticated } = require('../middlewares/authMiddleware');
 
-router.get("/", (req, res) => {
-  try {
-    const successMessage = req.session.successMessage || null;
-    console.log(successMessage);
-    
-    
-    delete req.session.successMessage;
-    
-    res.render("login", { title: "Login", successMessage });
-  } catch (error) {
-    console.error("Error rendering login page:", error);
-    res.status(500).send("An error occurred while rendering the login page.");
-  }
-});
+router.use(redirectIfAuthenticated);
+router.get("/", LoginController.showLoginForm);
+router.post("/", LoginController.loginUser);
+
 
 module.exports = router;
