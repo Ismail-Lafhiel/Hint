@@ -5,7 +5,7 @@
     >
       <a href="/" class="flex items-center">
         <img
-          src="img/logos/hint-light.svg"
+          src="../img/logos/hint-lg.svg"
           class="h-6 sm:h-9"
           alt="hint"
         />
@@ -15,14 +15,14 @@
         >
       </a>
       <div class="flex items-center lg:order-2">
-        <% if (isAuthenticated && user) { %>
+        <% if ((typeof isAuthenticated !== 'undefined' && isAuthenticated) && (typeof user !== 'undefined' && user)) { %>
         <img
           id="avatarButton"
           type="button"
           data-dropdown-toggle="userDropdown"
           data-dropdown-placement="bottom-start"
           class="w-10 h-10 rounded-full cursor-pointer"
-          src="img/logos/vibeshare-main.png"
+          src="<%= user.image %>"
           alt="User dropdown"
         />
         <div

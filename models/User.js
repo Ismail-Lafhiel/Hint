@@ -39,12 +39,12 @@ const User = sequelize.define('User', {
   image: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "/images/backgroundform.webp",
+    defaultValue: "/img/default.jpg",
   },
   banner: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "/images/backgroundform.webp",
+    defaultValue: "/img/default_banner.svg",
   },
   bio: {
     type: DataTypes.STRING,

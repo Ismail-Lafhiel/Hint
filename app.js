@@ -77,12 +77,19 @@ syncDatabase().then(() => {
   const passwordRecoveryRouter = require("./routes/passwordRecovery");
   const passwordUpdateRouter = require("./routes/passwordUpdate");
   const logoutRouter = require("./routes/logout");
+  const profileRouter = require("./routes/profile");
   app.use("/", indexRouter);
   app.use("/register", redirectIfAuthenticated, registerRouter);
   app.use("/login", redirectIfAuthenticated, loginRouter);
   app.use("/passwordRecovery", redirectIfAuthenticated, passwordRecoveryRouter);
   app.use("/update-password", passwordUpdateRouter);
   app.use("/logout", logoutRouter);
+  app.use("/articles", articleRoutes);
+  app.use("/profile", profileRouter);
+  app.use((req, res) => {
+    res.status(404).render("404", { title: "Page not found" });
+  });
+});
 
 // Démarrer le serveur après la synchronisation de la base de données
 syncDatabase().then(() => {

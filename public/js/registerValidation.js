@@ -55,20 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
       message += "Password must be at least 8 characters long. ";
       isValid = false;
     }
-    if (!/[A-Z]/.test(value)) {
-      message += "Must contain at least one uppercase letter. ";
-      isValid = false;
-    }
     if (!/[a-z]/.test(value)) {
-      message += "Must contain at least one lowercase letter. ";
+      message += "Must contain at least one latin letter. ";
       isValid = false;
     }
     if (!/\d/.test(value)) {
       message += "Must contain at least one number. ";
-      isValid = false;
-    }
-    if (!/[!@$!%*?&]/.test(value)) {
-      message += "Must contain at least one special character. ";
       isValid = false;
     }
 

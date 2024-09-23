@@ -55,6 +55,7 @@ exports.loginUser = async (req, res) => {
 
     // On successful login, set session user and redirect to home page
     req.session.user = user;
+    req.session.isAuthenticated = true;
     console.log(user)
     req.session.successMessage = "Login successful!";
     return res.redirect("/");
