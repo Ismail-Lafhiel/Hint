@@ -68,6 +68,9 @@ syncDatabase().then(() => {
   const passwordUpdateRouter = require("./routes/passwordUpdate");
   const logoutRouter = require("./routes/logout");
   const profileRouter = require("./routes/profile");
+  const commentRouter = require("./routes/comment"); 
+  const deleteCommentRouter = require("./routes/deleteComment");
+  const likeCommentRouter = require("./routes/likeComment");
   app.use("/", indexRouter);
   app.use("/register", redirectIfAuthenticated, registerRouter);
   app.use("/login", redirectIfAuthenticated, loginRouter);
@@ -76,6 +79,9 @@ syncDatabase().then(() => {
   app.use("/logout", logoutRouter);
   app.use("/articles", articleRoutes);
   app.use("/profile", profileRouter);
+  app.use("/comment", commentRouter);
+  app.use('/delete', deleteCommentRouter);
+  app.use('/like', likeCommentRouter);
   app.use((req, res) => {
     res.status(404).render("404", { title: "Page not found" });
   });

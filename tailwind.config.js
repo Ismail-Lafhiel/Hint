@@ -22,6 +22,12 @@ module.exports = {
           900: "#312e81",
           950: "#1e1b4b",
         },
+        Violet:{
+          30: "#A76AFF",
+          40: "#7F35EB",
+          50: "#480BA2"
+
+        }
       },
     },
     fontFamily: {
