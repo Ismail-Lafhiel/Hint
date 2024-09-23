@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Article = require("../models/Article");
 const Comment = require("../models/Comment");
 const Like = require("../models/Like");
+const ArticleLikes = require('../models/ArticleLikes');
 
 async function syncDatabase() {
   try {

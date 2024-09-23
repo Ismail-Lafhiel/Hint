@@ -27,8 +27,8 @@ exports.getCommentsByArticle = async (req, res) => {
 };
 
 exports.addCommentByArticle = async (req, res) => {
-  const articleId = req.params.articleId;
-  const { content, userId } = req.body;
+  const articleId = req.body.articleId;
+  const content = req.body.content;
 
   console.log("Article ID:", articleId);
   console.log("Content:", content);
@@ -37,9 +37,9 @@ exports.addCommentByArticle = async (req, res) => {
     await Comment.create({
       content: content,
       articleId: articleId,
-      userId: userId,
+      userId: req.session.user.id,
     });
-    res.redirect(`/comment/${articleId}`);
+    res.redirect(`/articles/${articleId}#comments`);
   } catch (err) {
     console.error("Erreur lors de l'ajout du commentaire :", err);
     res.status(500).send("Erreur lors de l'ajout du commentaire");
@@ -66,45 +66,46 @@ exports.deleteCommentById = async (req, res) => {
 };
 
 exports.likeComment = async (req, res) => {
-  const { id: commentId, userId } = req.params;
+  const id = req.params.id;
 
   try {
     const existingLike = await Like.findOne({
       where: {
-        commentId: commentId,
-        userId: userId,
+        commentId: id,
+        userId: req.session.user.id,
       },
     });
 
     if (existingLike) {
       await Like.destroy({
         where: {
-          commentId: commentId,
-          userId: userId,
+          commentId: id,
+          userId: req.session.user.id,
         },
       });
 
-      const comment = await Comment.findByPk(commentId);
+      const comment = await Comment.findByPk(id);
       if (comment) {
         comment.likes -= 1;
         await comment.save();
-        return res.json({ success: true, likes: comment.likes });
+        console.log('unliked');
+        return res.json({ status: 'unliked' });
       }
       return res
         .status(404)
         .json({ success: false, message: "Comment not found" });
     } else {
-      
       await Like.create({
-        commentId: commentId,
-        userId: userId,
+        commentId: id,
+        userId: req.session.user.id,
       });
 
-      const comment = await Comment.findByPk(commentId);
+      const comment = await Comment.findByPk(id);
       if (comment) {
         comment.likes += 1;
         await comment.save();
-        return res.json({ success: true, likes: comment.likes });
+        console.log('liked');
+        return res.json({ status: 'liked' });
       }
       return res
         .status(404)

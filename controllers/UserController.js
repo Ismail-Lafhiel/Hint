@@ -10,7 +10,11 @@ function getFirstWords(text, wordCount) {
 
 exports.getProfile = async (req, res) => {
 
-    const userId = req.params.userId;
+    let userId = req.params.userId;
+
+    if (!req.params.userId) {
+        userId = req.session.user.id;
+    }
 
     const postCount = await Article.count(
         { where: { userId: userId } }

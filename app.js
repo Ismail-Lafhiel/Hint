@@ -51,8 +51,8 @@ syncDatabase().then(() => {
   const passwordUpdateRouter = require("./routes/passwordUpdate");
   const logoutRouter = require("./routes/logout");
   const profileRouter = require("./routes/profile");
-  const articleRoutes = require("./routes/articles");
-  const commentRoutes = require("./routes/comment");
+  const articleRouter = require("./routes/articles");
+  const commentRouter = require("./routes/comment");
   const likeRoutes = require("./routes/likeComment");
   const EditProfileRouter = require("./routes/editProfile");
 
@@ -62,9 +62,9 @@ syncDatabase().then(() => {
   app.use("/passwordRecovery", redirectIfAuthenticated, passwordRecoveryRouter);
   app.use("/update-password", passwordUpdateRouter);
   app.use("/logout", logoutRouter);
-  app.use("/articles", articleRoutes);
+  app.use("/articles", articleRouter);
   app.use("/profile", profileRouter);
-  app.use("/comments", commentRoutes);
+  app.use("/comment", commentRouter);
   app.use("/like", likeRoutes);
   app.use("/editProfile", EditProfileRouter);
 

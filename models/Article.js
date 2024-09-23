@@ -21,7 +21,11 @@ const Article = sequelize.define('Article', {
   coverImage: {
     type: DataTypes.STRING,
     allowNull: true,
-  }
+  },
+  likes: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
 }, {
   timestamps: true,
 });

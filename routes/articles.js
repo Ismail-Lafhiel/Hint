@@ -3,6 +3,7 @@ const router = express.Router();
 const articleController = require('../controllers/articleController');
 const multer = require('multer');
 const path = require('path');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const uploadDir = path.join(__dirname, '../public/uploads');
 const storage = multer.diskStorage({
@@ -15,12 +16,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.get('/listes', articleController.getArticles);
-router.get('/create', articleController.create);
-router.post('/create', upload.single('coverImage'), articleController.store);
-router.get('/:id', articleController.show);
-router.post('/:id/delete', articleController.delete);
-router.get('/:id/edit', articleController.edit); 
-router.post('/:id/update', upload.single('coverImage'), articleController.update); 
+router.get('/listes', authMiddleware.redirectIfNotAuthenticated, articleController.getArticles);
+router.get('/create', authMiddleware.redirectIfNotAuthenticated, articleController.create);
+router.post('/create', authMiddleware.redirectIfNotAuthenticated, upload.single('coverImage'), articleController.store);
+router.get('/:id', authMiddleware.redirectIfNotAuthenticated, articleController.show);
+router.post('/:id/delete', authMiddleware.redirectIfNotAuthenticated, articleController.delete);
+router.get('/:id/edit', authMiddleware.redirectIfNotAuthenticated, articleController.edit); 
+router.post('/:id/update', authMiddleware.redirectIfNotAuthenticated, upload.single('coverImage'), articleController.update);
+router.get('/:id/like', authMiddleware.redirectIfNotAuthenticated, articleController.likeArticle);
 
 module.exports = router;

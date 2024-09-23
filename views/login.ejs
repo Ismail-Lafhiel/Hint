@@ -13,7 +13,8 @@
         <div class="flex items-center md:h-screen p-4">
           <div class="w-full max-w-5xl mx-auto">
             <div
-              class="grid md:grid-cols-2 gap-16 bg-gray-50 shadow w-full sm:p-8 p-6 rounded-xl relative dark:bg-gray-900"
+              class="grid md:grid-cols-2 gap-16 bg-gray-50 shadow w-full sm:p-8 p-6 rounded-xl relative"
+              style="box-shadow: 0 0 12px 2px #0001;"
             >
               <div>
                 <div class="mb-16">
@@ -176,23 +177,7 @@
 
                   <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                      <input
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                        class="h-4 w-4 shrink-0 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-                      />
-                      <label
-                        for="remember-me"
-                        class="ml-3 block text-xs text-gray-800 dark:text-gray-200"
-                      >
-                        I accept the
-                        <a
-                          href="javascript:void(0);"
-                          class="text-primary-600 font-semibold hover:underline"
-                          >Terms and Conditions</a
-                        >
-                      </label>
+                
                     </div>
                     <a
                       href="/passwordRecovery"
@@ -235,3 +220,11 @@
     <script src="/js/loginValidation.js"></script>
   </body>
 </html>
+<style>
+      
+  @import url('https://fonts.cdnfonts.com/css/montserrat');
+      
+  * {
+      font-family: 'Montserrat', sans-serif !important;
+  }
+</style>

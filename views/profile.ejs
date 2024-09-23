@@ -25,11 +25,6 @@
     <%- include('partials/header') %>
     <main class="main-page">
         <div class="info-card" style="background-image: url('<%= profile.banner %>');">
-            <div class="editor">
-                <span>
-                    <i class="bi bi-pencil-square"></i>
-                </span>
-            </div>
             <div class="user-banner">
                 <div class="wrapper">
                     <div class="user-img" style="background-image: url('<%= profile.image %>');">
@@ -178,15 +173,7 @@
            <% } %>
         </div>
     </main>
-    <footer>
-        <div class="footer-list">
-            <a href="#" class="footer-link">Contact</a>
-            <a href="#" class="footer-link">About</a>
-            <a href="#" class="footer-link">Terms</a>
-            <a href="#" class="footer-link">Privacy</a>
-            <a href="#" class="footer-link">Settings</a>
-        </div>
-    </footer>
+    <%- include('partials/footer') %>
     <!-- Modals here : -->
     <div class="modal" id="info">
         <div class="modal-header">
