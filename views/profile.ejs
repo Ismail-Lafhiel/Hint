@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="/css/profile.css">
     <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" rel="stylesheet">
+    <script>
+        function copyThisToClipboard(text,btn) {
+            navigator.clipboard.writeText(text);
+            btn.innerHTML = "Copied!";
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.innerHTML = "Share";
+                btn.disabled = false;
+            }, 1000);
+        }
+    </script>
 </head>
 
 <body>
@@ -42,7 +53,7 @@
                     <% } else { %>
                     <button class="user-action-btn">Report</button>
                     <% } %>
-                    <button class="user-action-btn">Share</button>
+                    <button class="user-action-btn" onclick="copyThisToClipboard(window.location.href,this)">Share</button>
                 </div>
             </div>
         </div>
