@@ -15,6 +15,10 @@ const Comment = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    likes: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: true,
@@ -22,10 +26,10 @@ const Comment = sequelize.define(
 );
 
 // Define relationship: a comment belongs to a user and an article
-Comment.belongsTo(User, { foreignKey: "userId", as: "author" });
-User.hasMany(Comment, { foreignKey: "userId" });
+Comment.belongsTo(User, { foreignKey: "userId", as: "author", onDelete: 'CASCADE' });
+User.hasMany(Comment, { foreignKey: "userId", onDelete: 'CASCADE' });
 
-Comment.belongsTo(Article, { foreignKey: "articleId" });
-Article.hasMany(Comment, { foreignKey: "articleId" });
+Comment.belongsTo(Article, { foreignKey: "articleId", onDelete: 'CASCADE' });
+Article.hasMany(Comment, { foreignKey: "articleId", onDelete: 'CASCADE' });
 
 module.exports = Comment;
