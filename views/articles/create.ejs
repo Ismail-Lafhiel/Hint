@@ -1,5 +1,4 @@
 <!--articles/create.ejs-->
-
 <!DOCTYPE html>
 <html lang="en" class="light">
   <head>
@@ -7,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- TinyMCE pour l'éditeur de texte -->
     <script
       src="https://cdn.tiny.cloud/1/aad7hw9nmr9qv0mf1lrj8ipe19o6zo8l8hkfddtsu4x32u66/tinymce/7/tinymce.min.js"
       referrerpolicy="origin"
@@ -76,10 +73,8 @@
           method="POST"
           action="/articles/create"
           enctype="multipart/form-data"
-          enctype="multipart/form-data"
           class="space-y-6"
         >
-          <!-- Champ pour le titre -->
           <div class="relative">
             <input
               type="text"
@@ -99,47 +94,74 @@
             </label>
           </div>
 
-          <!-- Champ pour l'image de couverture -->
-
-          <div class="flex items-center justify-center w-full">
+          <div class="relative">
+            <input
+              type="text"
+              id="description"
+              name="description"
+              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              placeholder=""
+              value="<%= data.description || '' %>"
+              required
+            />
             <label
-              for="coverImage"
-              class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              for="description"
+              id="description-label"
+              class="absolute left-4 top-3 text-gray-500 dark:text-gray-400 transition-all duration-300 ease-in-out transform origin-left scale-100"
             >
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg
-                  class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                  />
-                </svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span class="font-semibold">Click to upload couverture</span>
-                  or drag and drop
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
-                </p>
-              </div>
-              <input
-                id="coverImage"
-                type="file"
-                name="coverImage"
-                class="hidden"
-              />
+              Description de l'article
             </label>
           </div>
 
-          <!-- Champ pour le contenu -->
+          <div class="space-y-6">
+            <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 text-center mb-6">
+              Add your cover for your article
+          </h2>
+          
+
+            <div class="flex items-center justify-center w-full">
+              <label
+                for="coverImage"
+                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              >
+                <div
+                  class="flex flex-col items-center justify-center pt-5 pb-6"
+                >
+                  <svg
+                    class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                    />
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="font-semibold"
+                      >Click to upload couverture</span
+                    >
+                    or drag and drop
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                  </p>
+                </div>
+                <input
+                  id="coverImage"
+                  type="file"
+                  name="coverImage"
+                  class="hidden"
+                />
+              </label>
+            </div>
+          </div>
+
           <div>
             <textarea
               id="content"
@@ -148,8 +170,7 @@
               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
                       <%= data.content || '' %>
-                  </textarea
-            >
+            </textarea>
           </div>
 
           <div class="flex justify-center">
@@ -167,26 +188,39 @@
     <script>
       const inputTitle = document.getElementById("title");
       const labelTitle = document.getElementById("title-label");
+      const inputDescription = document.getElementById("description");
+      const labelDescription = document.getElementById("description-label");
 
-      function checkInput() {
-        if (inputTitle.value !== "") {
-          labelTitle.classList.add(
-            "-translate-y-4",
-            "scale-75",
-            "text-blue-500"
-          );
+      function checkInput(input, label) {
+        if (input.value !== "") {
+          label.classList.add("-translate-y-4", "scale-75", "text-blue-500");
         } else {
-          labelTitle.classList.remove(
-            "-translate-y-4",
-            "scale-75",
-            "text-blue-500"
-          );
+          label.classList.remove("-translate-y-4", "scale-75", "text-blue-500");
         }
       }
-      inputTitle.addEventListener("focus", checkInput);
-      inputTitle.addEventListener("blur", checkInput);
-      inputTitle.addEventListener("input", checkInput);
-      checkInput();
+
+      inputTitle.addEventListener("focus", () =>
+        checkInput(inputTitle, labelTitle)
+      );
+      inputTitle.addEventListener("blur", () =>
+        checkInput(inputTitle, labelTitle)
+      );
+      inputTitle.addEventListener("input", () =>
+        checkInput(inputTitle, labelTitle)
+      );
+
+      inputDescription.addEventListener("focus", () =>
+        checkInput(inputDescription, labelDescription)
+      );
+      inputDescription.addEventListener("blur", () =>
+        checkInput(inputDescription, labelDescription)
+      );
+      inputDescription.addEventListener("input", () =>
+        checkInput(inputDescription, labelDescription)
+      );
+
+      checkInput(inputTitle, labelTitle);
+      checkInput(inputDescription, labelDescription);
     </script>
   </body>
 </html>

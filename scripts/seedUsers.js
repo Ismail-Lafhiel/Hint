@@ -25,10 +25,11 @@ async function createRandomUsers(count) {
     for (let i = 0; i < count; i++) {
       const fullname = faker.person.fullName() 
       const username = fullname + faker.internet.userName();
+      const bio = faker.lorem.sentence();
       const email = faker.internet.email();
       const password = faker.internet.password();
       const hashedPassword = await bcrypt.hash(password, 10);
-      users.push({ fullname, username, email, password: hashedPassword });
+      users.push({ fullname, username, bio, email, password: hashedPassword });
     }
     await User.bulkCreate(users);
     console.log(`${count} random users created successfully`);
