@@ -40,7 +40,10 @@ exports.getProfile = async (req, res) => {
       });
 
       articles.forEach(article => {
-        article.smallDescription = getFirstWords(article.content, 5);
+        article.smallDescription = sanitizeHtml(getFirstWords(article.content, 5), {
+            allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'img'],
+            allowedAttributes: { a: ['href'], img: ['src', 'alt'] }
+          });
         article.content = sanitizeHtml(article.content, {
           allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'img'],
           allowedAttributes: { a: ['href'], img: ['src', 'alt'] }

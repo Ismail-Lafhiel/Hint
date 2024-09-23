@@ -34,9 +34,7 @@ module.exports = {
     try {
       
       const { title, content, description } = req.body;
-      console.log(req.user);
-      console.log(req.user.id);
-      const userId = req.user && req.user.id ? req.user.id : 1;
+      const userId = req.session.user.id;
       const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
 
       if (!title || !content) {
@@ -52,7 +50,7 @@ module.exports = {
         coverImage
       });
 
-      res.redirect('/articles/listes');
+      res.redirect('/profile/' + req.session.user.id);
     } catch (error) {
       console.error('Error saving article:', error);
       req.flash('errorMessage', error.message || 'An error occurred while creating the article.');

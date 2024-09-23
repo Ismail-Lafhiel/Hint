@@ -50,6 +50,7 @@
                 <div class="user-actions">
                     <% if (session.user.id == profile.id) { %>
                     <button class="user-action-btn" onclick="modalist('info')">Edit Info</button>
+                    <button class="user-action-btn" onclick="window.location.href = '/articles/create'">Create Article</button>
                     <% } else { %>
                     <button class="user-action-btn">Report</button>
                     <% } %>
@@ -95,7 +96,7 @@
                     <h1 class="articles-title">
                         Articles
                     </h1>
-                    <button class="articles-action">View All</button>
+                    <a href="/articles/list"><button class="articles-action">View All</button></a>
                 </div>
                 <% if (articles.length === 0) { %>
                 <div class="no-content-list">
@@ -113,7 +114,7 @@
                     </div>
                     <div class="article-info">
                         <div class="article-title">
-                            article.title
+                            <%= article.title %>
                         </div>
                         <div class="article-desc">
                             <%= article.smallDescription %>...

@@ -75,28 +75,24 @@
           
             <div id="dropdownDots<%= article.id %>" class="z-50 hidden  bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                <% if (user && article.userId === user.id) { %>
                 <li>
-                  <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <a href="/articles/<%= article.id %>/edit" style="cursor: pointer;" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                     <span>Update</span>
                     <i class="fa-solid fa-pen-to-square"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <a href="/articles/<%= article.id %>/delete" style="cursor: pointer;" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                     <span>Delete</span>
                     <i class="fa-solid fa-trash"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                <% } %>
+                  <a onclick="navigator.clipboard.writeText(window.location.href.split('articles')[0] + 'articles/<%= article.id %>');" style="cursor: pointer;" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                     <span>Copy URL</span>
                     <i class="fa-solid fa-clipboard"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    <span>Save</span>
-                    <i class="fa-regular fa-bookmark"></i>
                   </a>
                 </li>
               </ul>
