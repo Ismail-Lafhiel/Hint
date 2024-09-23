@@ -82,9 +82,13 @@ syncDatabase().then(() => {
 });
 
   // Démarrer le serveur après la synchronisation de la base de données
-  const port = process.env.PORT || 3001;
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  }).catch(error => {
-    console.error('Database synchronization failed:', error);
+  const PORT = process.env.PORT || 3000;
+
+try {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
+} catch (error) {
+  console.error('Error starting the server:', error);
+}
+
