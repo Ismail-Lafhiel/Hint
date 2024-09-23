@@ -2,6 +2,7 @@ const sequelize = require("../config/database");
 const User = require("../models/User");
 const Article = require("../models/Article");
 const Comment = require("../models/Comment");
+const Like = require("../models/Like");
 
 async function syncDatabase() {
   try {
@@ -9,7 +10,7 @@ async function syncDatabase() {
     await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
 
     // Sync the models
-    await sequelize.sync({ force: true }); // Drops tables and recreates them
+    await sequelize.sync({ force: true });
     console.log("Database synced");
 
     // Re-enable foreign key checks

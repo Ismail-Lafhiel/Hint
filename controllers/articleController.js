@@ -171,7 +171,7 @@ module.exports = {
       
 
       await article.destroy();
-      res.redirect('/articles/listes'); 
+      res.redirect('/profile/' + req.session.user.id); 
     } catch (error) {
       console.error('Error deleting article:', error);
       res.status(500).send('Server error while deleting the article.');

@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const editProfile = async (req, res) => {
+
     const id = req.body.id;
     const fullname = req.body.fullname;
     const username = req.body.username;
@@ -27,6 +28,7 @@ const editProfile = async (req, res) => {
     const color1 = req.body.color1;
     const color2 = req.body.color2;
     const color3 = req.body.color3;
+
     try {
         const user = await User.findOne({
             where: { id: id },

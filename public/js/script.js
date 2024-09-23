@@ -150,7 +150,7 @@ function submitForm(btn) {
     let formData = new FormData(form);
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/edit', true);
+    xhr.open('POST', '/editProfile', true);
 
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {

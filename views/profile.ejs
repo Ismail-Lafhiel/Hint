@@ -37,9 +37,12 @@
                     </div>
                 </div>
                 <div class="user-actions">
+                    <% if (session.user.id == profile.id) { %>
                     <button class="user-action-btn" onclick="modalist('info')">Edit Info</button>
-                    <button class="user-action-btn">Share</button>
+                    <% } else { %>
                     <button class="user-action-btn">Report</button>
+                    <% } %>
+                    <button class="user-action-btn">Share</button>
                 </div>
             </div>
         </div>
@@ -53,7 +56,7 @@
                         Posts
                     </div>
                     <div class="stat-value">
-                        20
+                        <%= postCount %>
                     </div>
                 </div>
                 <div class="stat">
@@ -61,15 +64,15 @@
                         Reactions
                     </div>
                     <div class="stat-value">
-                        254
+                        <%= likeCount %>
                     </div>
                 </div>
                 <div class="stat">
                     <div class="stat-title">
-                        Likes
+                        Comments
                     </div>
                     <div class="stat-value">
-                        204k
+                        <%= commentCount %>
                     </div>
                 </div>
             </div>
@@ -83,63 +86,57 @@
                     </h1>
                     <button class="articles-action">View All</button>
                 </div>
-                <!-- <div class="no-content-list">
+                <% if (articles.length === 0) { %>
+                <div class="no-content-list">
                     <i class="bi bi-wind"></i>
                     <p>
                         No Articles Yet
                     </p>
-                </div> -->
+                </div>
+                <% } %>
                 <!-- Article list here : -->
+                 <% articles.forEach(article => { %>
                 <div class="article">
                     <div class="article-img" style="background-image: url('/img/default.jpg');">
                         
                     </div>
                     <div class="article-info">
                         <div class="article-title">
-                            Event Loop in JavaScript
+                            article.title
                         </div>
                         <div class="article-desc">
-                            Lorem ipsum dolor sit amet elit.
+                            <%= article.smallDescription %>...
                         </div>
                         
                     </div>
                     <div class="article-actions" onclick="showActions(this.lastElementChild)">
                         <i class="bi bi-three-dots"></i>
                         <div class="actions-">
-                            <button class="action">Read <i class="bi bi-book"></i></button>
-                            <button class="action">Edit <i class="bi bi-pen"></i></button>
+                            <a href="/articles/<%= article.id %>"><button class="action">Read <i class="bi bi-book"></i></button></a>
+                            <a href="/articles/<%= article.id %>/edit"><button class="action">Edit <i class="bi bi-pen"></i></button></a>
                         </div>
                     </div>
                 </div>
-                <div class="article">
-                    <div class="article-img" style="background-image: url('/img/default.jpg');">
-                        
-                    </div>
-                    <div class="article-info">
-                        <div class="article-title">
-                            Event Loop in JavaScript
-                        </div>
-                        <div class="article-desc">
-                            Lorem ipsum dolor sit amet elit.
-                        </div>
-                        
-                    </div>
-                    <div class="article-actions" onclick="showActions(this.lastElementChild)">
-                        <i class="bi bi-three-dots"></i>
-                        <div class="actions-">
-                            <button class="action">Read <i class="bi bi-book"></i></button>
-                            <button class="action">Edit <i class="bi bi-pen"></i></button>
-                        </div>
-                    </div>
-                </div>
+                <% }) %>
             </div>
+            <% if (articles.length === 0) { %>
+                <div class="articles-big">
+                    <div class="no-content-big">
+                        <i class="bi bi-wind"></i>
+                        <p>
+                            No Articles Yet
+                        </p>
+                    </div>
+                </div>
+            <% } else { %>
             <div class="articles-cards">
+                <% articles.forEach(article => { %>
                 <div class="card">
                     <div class="card-header">
                         <h1 class="card-title">
-                            Article 1
+                            <%= article.title %>
                             <p class="card-date">
-                                Jul 14 
+                                <%= new Date(article.createdAt).toLocaleDateString() %>
                                 <strong>By</strong>
                                 <span class="card-author"><%= profile.username %></span>
                             </p>
@@ -147,93 +144,26 @@
                         <div class="card-actions" onclick="showActions(this.lastElementChild)">
                             <i class="bi bi-three-dots"></i>
                             <div class="actions- actions-card" >
-                                <button class="action">Edit <i class="bi bi-pen"></i></button>
-                                <button class="action">Delete <i class="bi bi-trash"></i></button>
+                                <a href="/articles/<%= article.id %>/edit"><button class="action">Edit <i class="bi bi-pen"></i></button></a>
+                                <a href="/articles/<%= article.id %>/delete"><button class="action">Delete <i class="bi bi-trash"></i></button></a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="card-img" style="background-image: url('');">
+                        <div class="card-img" style="background-image: url('<%= article.coverImage %>');">
                             
                         </div>
                         <div class="card-desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <%= article.smallDescription %>...
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="card-action">Read <i class="bi bi-book"></i></button>
+                        <a href="/articles/<%= article.id %>"><button class="card-action">Read <i class="bi bi-book"></i></button></a>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h1 class="card-title">
-                            Article 1
-                            <p class="card-date">
-                                Jul 14 
-                                <strong>By</strong>
-                                <span class="card-author"><%= profile.username %></span>
-                            </p>
-                        </h1>
-                        <div class="card-actions" onclick="showActions(this.lastElementChild)">
-                            <i class="bi bi-three-dots"></i>
-                            <div class="actions- actions-card" >
-                                <button class="action">Edit <i class="bi bi-pen"></i></button>
-                                <button class="action">Delete <i class="bi bi-trash"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-img" style="background-image: url('');">
-                            
-                        </div>
-                        <div class="card-desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button class="card-action">Read <i class="bi bi-book"></i></button>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h1 class="card-title">
-                            Article 1
-                            <p class="card-date">
-                                Jul 14 
-                                <strong>By</strong>
-                                <span class="card-author"><%= profile.username %></span>
-                            </p>
-                        </h1>
-                        <div class="card-actions" onclick="showActions(this.lastElementChild)">
-                            <i class="bi bi-three-dots"></i>
-                            <div class="actions- actions-card" >
-                                <button class="action">Edit <i class="bi bi-pen"></i></button>
-                                <button class="action">Delete <i class="bi bi-trash"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-img" style="background-image: url('');">
-                            
-                        </div>
-                        <div class="card-desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button class="card-action">Read <i class="bi bi-book"></i></button>
-                    </div>
-                </div>
+                 <% }) %>
             </div>
-            
-            <!-- <div class="articles-big">
-                <div class="no-content-big">
-                    <i class="bi bi-wind"></i>
-                    <p>
-                        No Articles Yet
-                    </p>
-                </div>
-            </div> -->
+           <% } %>
         </div>
     </main>
     <footer>
