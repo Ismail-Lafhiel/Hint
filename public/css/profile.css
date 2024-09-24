@@ -972,3 +972,27 @@
     display: none;
   }
 }
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    gap: 10px;
+}
+.post-counts {
+    color: #6a2cb8;
+}
+.like-btn {
+    color: #6a2cb8;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.count {
+  color: #6a2cb8;
+  font-size: 12px;
+}

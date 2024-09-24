@@ -165,7 +165,34 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="/articles/<%= article.id %>"><button class="card-action">Read <i class="bi bi-book"></i></button></a>
+                        <div class="post-counts">
+                            <div class="like-btn" onclick="window.location.href = '/articles/<%= article.id %>'">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                                <p class="count">
+                                    Read
+                                </p>
+                            </div>
+                        </div>
+                        <div class="post-counts">
+                            <div class="like-btn" onclick="likeAjax('<%= article.id %>', this)">
+                                <% if (article.isLiked) { %>
+                                <i class="bi bi-heart-fill" style="color: #7F35EB"></i>
+                                <% } else { %>
+                                <i class="bi bi-heart"></i>
+                                <% } %>
+                                <p class="count">
+                                    <%= article.likes %>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="post-counts">
+                            <div class="like-btn">
+                                <i class="bi bi-eye"></i>
+                                <p class="count">
+                                    <%= article.views %>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                  <% }) %>
@@ -400,3 +427,37 @@
        cropperBg.destroy();
     }
 </script>
+<script defer>
+    function likeAjax(articleId, element) {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", `/articles/${articleId}/like`, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+  
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                  const response = JSON.parse(xhr.responseText);
+                  updateLikeElement(element, response.status);
+              } else {
+                  console.error('Error liking the article:', xhr.statusText);
+              }
+          }
+      };
+  
+      xhr.onerror = function () {
+          console.error('Request failed');
+      };
+  
+      xhr.send();
+  }
+  
+  function updateLikeElement(element, liked) {
+    if (liked == 'liked') {
+      element.firstElementChild.outerHTML = '<i class="bi bi-heart-fill" style="color: #7F35EB"></i>';
+      element.lastElementChild.textContent = parseInt(element.lastElementChild.textContent) + 1;
+    } else if (liked == 'unliked') {
+      element.firstElementChild.outerHTML = '<i class="bi bi-heart" style="color: #7F35EB"></i>';
+      element.lastElementChild.textContent = parseInt(element.lastElementChild.textContent) - 1;
+    }
+  }
+  </script>

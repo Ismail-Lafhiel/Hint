@@ -27,6 +27,7 @@
     font-size: 18px;
     align-items: center;
     justify-content: center;
+    backdrop-filter: darken(0.5);
 }
 .comment-content {
     display: flex;

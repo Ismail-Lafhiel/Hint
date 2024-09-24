@@ -69,6 +69,7 @@ const editProfile = async (req, res) => {
         user.color2 = color2;
         user.color3 = color3;
         
+        req.session.user = user;
         await user.save();
         res.send('Profile updated');
     } catch (err) {
