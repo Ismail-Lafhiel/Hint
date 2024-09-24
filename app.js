@@ -53,6 +53,7 @@ syncDatabase().then(() => {
   const profileRouter = require("./routes/profile");
   const articleRouter = require("./routes/articles");
   const commentRouter = require("./routes/comment");
+  const deleteCommentRouter = require("./routes/deleteComment");
   const likeRoutes = require("./routes/likeComment");
   const EditProfileRouter = require("./routes/editProfile");
 
@@ -65,6 +66,7 @@ syncDatabase().then(() => {
   app.use("/articles", articleRouter);
   app.use("/profile", profileRouter);
   app.use("/comment", commentRouter);
+  app.use("/deleteComment", deleteCommentRouter);
   app.use("/like", likeRoutes);
   app.use("/editProfile", EditProfileRouter);
 

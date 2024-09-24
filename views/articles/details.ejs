@@ -120,7 +120,7 @@
                             <button class="like-btn" onclick="likeCommentAjax('<%=comment.id%>',this)"><i class="bi bi-heart"></i><p class="count"><%=comment.likes%></p></button>
                             <% } %>
                             <% if (user.id == comment.author.id) {%>
-                            <button class="delete-btn"><i class="bi bi-trash"></i></button>
+                            <button class="delete-btn" onclick="deleteCommentAjax('<%= comment.id %>',this)"><i class="bi bi-trash"></i></button>
                             <% } %>
                         </div>
                     </div>
@@ -196,5 +196,27 @@ function updateLikeElement(element, liked) {
     element.firstElementChild.outerHTML = '<i class="bi bi-heart" style="color: #7F35EB"></i>';
     element.lastElementChild.textContent = parseInt(element.lastElementChild.textContent) - 1;
   }
+}
+
+function deleteCommentAjax(commentId, element) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", `/deleteComment/${commentId}`, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+              element.parentNode.parentNode.remove();
+          } else {
+              console.error('Error deleting the comment:', xhr.statusText);
+          }
+      }
+  };
+
+  xhr.onerror = function () {
+      console.error('Request failed');
+  };
+
+  xhr.send();
 }
 </script>

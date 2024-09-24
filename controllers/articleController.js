@@ -104,6 +104,9 @@ module.exports = {
                 attributes: ['fullname', 'image', 'bio', 'createdAt']
             }
         });
+        
+        const onlyArticle = await Article.findOne({ where: { id: articleId } });
+        onlyArticle.increment('views', { by: 1 });
 
         if (!article) {
             return res.status(404).render('error', { message: 'Article not found' });

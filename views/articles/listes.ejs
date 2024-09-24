@@ -95,7 +95,7 @@
                 <li>
                   <a href="/articles/<%= article.id %>/edit" style="cursor: pointer;" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
                     <span>Update</span>
-                    <i class="fa-solid fa-pen-to-square"></i>
+                    <i class="bi bi-pen"></i>
                   </a>
                 </li>
                 <li>
@@ -151,7 +151,7 @@
               <!-- View Button -->
               <button class="flex items-center space-x-2 group transition-transform transform">
                 <i class="bi bi-eye"></i>
-                <span class="text-gray-700 group-hover:text-[#7a3cc4]">No Data</span>
+                <span class="text-gray-700 group-hover:text-[#7a3cc4]"><%= article.views %></span>
               </button>
             </div>
             

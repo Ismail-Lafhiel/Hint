@@ -26,6 +26,10 @@ const Article = sequelize.define('Article', {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  views: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
 }, {
   timestamps: true,
 });
