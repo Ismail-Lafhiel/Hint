@@ -43,29 +43,29 @@
                             <li>
                                 <a href="/articles/<%= article.id %>/edit" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
                                     <span>Edit</span>
-                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    <i class="bi bi-pen"></i>
                                 </a>
                             </li>
                             <li>
-                                <form action="/articles/<%= article.id %>/delete" method="POST" class="inline">
+                                <form action="/articles/<%= article.id %>/delete" method="GET" class="inline">
                                     <button style="width: 100%;" type="submit" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
                                         <span>Delete</span>
-                                        <i class="fa-solid fa-trash"></i>
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
                             </li>
                         <% } %>
 
                         <li>
-                            <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
+                            <a onclick="navigator.clipboard.writeText(window.location.href)" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
                                 <span>Copy URL</span>
-                                <i class="fa-solid fa-clipboard"></i>
+                                <i class="bi bi-clipboard"></i>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
                                 <span>Save</span>
-                                <i class="fa-regular fa-bookmark"></i>
+                                <i class="bi bi-bookmark"></i>
                             </a>
                         </li>
                     </ul>

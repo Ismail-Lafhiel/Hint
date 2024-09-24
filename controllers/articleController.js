@@ -104,7 +104,7 @@ module.exports = {
                 attributes: ['fullname', 'image', 'bio', 'createdAt']
             }
         });
-        
+
         const onlyArticle = await Article.findOne({ where: { id: articleId } });
         onlyArticle.increment('views', { by: 1 });
 
@@ -199,8 +199,6 @@ module.exports = {
       if (!article) {
         return res.status(404).send('Article not found');
       }
-
-      
 
       await article.destroy();
       res.redirect('/profile/' + req.session.user.id); 
