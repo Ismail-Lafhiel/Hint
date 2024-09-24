@@ -94,7 +94,7 @@
                     </div>
                 </div>
 
-                <p class="text-gray-600 mb-2 leading-relaxed" style="z-index: 3;"><%= article.User.bio %></p>
+                <p class="mb-2 leading-relaxed" style="z-index: 3;color: #b7b7b7;"><%= article.User.bio %></p>
 
                 <p class="text-white" style="z-index: 3;font-size: 14px;">
                     Registered on: <% const registrationDate = new Date(article.User.createdAt); const formattedDate = registrationDate instanceof Date && !isNaN(registrationDate) ? registrationDate.toLocaleDateString() : 'Unknown date'; %> <%= formattedDate %>
@@ -104,6 +104,15 @@
             <br>
             <div class="author-bio p-6 bg-gray-200 rounded-lg shadow-lg" id="comments">
                 <h3 class="font-semibold text-xl text-gray-800 mb-4">Comments</h3>
+                <% if (article.comments.length === 0) { %>
+                    <div class="no-comments">
+                        <i class="bi bi-cloud-slash"></i>
+                        <div class="texts">
+                            <h3>No comments yet</h3>
+                            <p style="font-size: 14px;text-align: center;">Be the first to comment on this article</p>
+                        </div>
+                    </div>
+                <% } %>
                 <% article.comments.forEach(comment => { %>
                     <div class="comment">
                         <div class="comment-inner">

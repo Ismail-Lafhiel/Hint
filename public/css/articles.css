@@ -43,3 +43,10 @@
     color: #7F35EB;
     gap: 10px;
 }
+.no-comments {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 15px;
+    font-size: 40px;
+}
