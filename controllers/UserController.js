@@ -26,17 +26,17 @@ exports.getProfile = async (req, res) => {
         }
     });
 
-    const likeCount = await Like.count({
+    const likeCount = await ArticleLike.count({
         include: {
-            model: Comment,
-            include: {
-                model: Article,
-                where: { userId: userId }
-            }
+            model: Article,
+            where: { userId: userId }
         }
     });
 
     const articles = await Article.findAll({ where: { userId: userId } });
+
+    let allLikes = 0;
+    let allViews = 0;
 
     const processedArticles = await Promise.all(articles.map(async (article) => {
         article.smallDescription = sanitizeHtml(getFirstWords(article.content, 5), {
@@ -47,10 +47,16 @@ exports.getProfile = async (req, res) => {
             allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'img'],
             allowedAttributes: { a: ['href'], img: ['src', 'alt'] }
         });
+        allLikes += article.likes;
+        allViews += article.views;
         article.isLiked = !!(await ArticleLike.findOne({ where: { articleId: article.id, userId: req.session.user.id } }));
         console.log(article.isLiked);
         return article;
     }));
+
+    console.log(allLikes);
+    console.log(allViews);
+    
 
     try {
         const profile = await User.findOne({ where: { id: userId } });
@@ -60,6 +66,8 @@ exports.getProfile = async (req, res) => {
             articles: processedArticles,
             postCount: postCount,
             commentCount: commentCount,
+            allLikes: allLikes,
+            allViews: allViews,
             likeCount: likeCount,
             session: req.session
         });
