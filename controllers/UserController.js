@@ -39,7 +39,7 @@ exports.getProfile = async (req, res) => {
     let allViews = 0;
 
     const processedArticles = await Promise.all(articles.map(async (article) => {
-        article.smallDescription = sanitizeHtml(getFirstWords(article.content, 5), {
+        article.smallDescription = sanitizeHtml(getFirstWords(article.description, 5), {
             allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'img'],
             allowedAttributes: { a: ['href'], img: ['src', 'alt'] }
         });
@@ -47,16 +47,12 @@ exports.getProfile = async (req, res) => {
             allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'img'],
             allowedAttributes: { a: ['href'], img: ['src', 'alt'] }
         });
+        article.commentCount = await Comment.count({ where: { articleId: article.id } });
         allLikes += article.likes;
         allViews += article.views;
         article.isLiked = !!(await ArticleLike.findOne({ where: { articleId: article.id, userId: req.session.user.id } }));
-        console.log(article.isLiked);
         return article;
     }));
-
-    console.log(allLikes);
-    console.log(allViews);
-    
 
     try {
         const profile = await User.findOne({ where: { id: userId } });

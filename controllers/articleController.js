@@ -8,11 +8,11 @@ const path = require('path');
 const multer = require('multer');
 const express = require('express');
 const ArticleLikes = require('../models/ArticleLikes');
+const { Op } = require('sequelize');
 
 const uploadDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
-  console.log('Uploads directory created.');
 }
 
 const storage = multer.diskStorage({
@@ -105,8 +105,12 @@ module.exports = {
             }
         });
 
+        const articleIsLiked = await ArticleLike.findOne({ where: { articleId: articleId, userId: req.session.user.id } });
+
         const onlyArticle = await Article.findOne({ where: { id: articleId } });
-        onlyArticle.increment('views', { by: 1 });
+        if (onlyArticle) {
+          await onlyArticle.increment('views', { by: 1 });
+        }
 
         if (!article) {
             return res.status(404).render('error', { message: 'Article not found' });
@@ -135,8 +139,16 @@ module.exports = {
             allowedAttributes: { a: ['href'], img: ['src', 'alt'] }
         });
         article.comments = processedComments;
+        article.isLiked = !!articleIsLiked;
+        article.views = article.views + 1;
 
-        res.render('articles/details', { title: article.title, article });
+        const sameAuthorArticles = await Article.findAll({
+            where: { userId: article.userId, id: { [Op.ne]: article.id } },
+            limit: 5,
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.render('articles/details', { title: article.title, article, sameAuthorArticles });
     } catch (error) {
         console.error('Error retrieving article details:', error);
         res.status(500).render('error', { message: 'Server error while retrieving the article.' });
@@ -237,5 +249,5 @@ module.exports = {
         console.error('Error liking article:', error);
         return res.status(500).json({ error: 'An error occurred while liking the article.' });
     }
-}
+  },
 };

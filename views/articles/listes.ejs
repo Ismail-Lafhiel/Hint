@@ -19,8 +19,50 @@
           btn.disabled = false;
       }, 1000);
   }
+  function search(input) {
+    document.getElementById('searchStatus').innerHTML = '<div class="loader"></div>';
+    setTimeout(() => {
+      document.getElementById('searchStatus').innerHTML = '<i class="bi bi-search"></i>';
+    }, 1000);
+    const cards = document.querySelectorAll('.card');
+    const searchValue = input.value.toLowerCase();
+    cards.forEach(card => {
+      const title = card.querySelector('.card-title').textContent.toLowerCase();
+      const description = card.querySelector('.card-description').textContent.toLowerCase();
+      if (title.includes(searchValue) || description.includes(searchValue)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
 </script>
 <style>
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 20px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  animation:
+    l20-1 0.8s infinite linear alternate,
+    l20-2 1.6s infinite linear;
+}
+@keyframes l20-1{
+   0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
+   12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
+   25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
+   50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+   62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+   75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
+   100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
+}
+@keyframes l20-2{ 
+  0%    {transform:scaleY(1)  rotate(0deg)}
+  49.99%{transform:scaleY(1)  rotate(135deg)}
+  50%   {transform:scaleY(-1) rotate(0deg)}
+  100%  {transform:scaleY(-1) rotate(-135deg)}
+}
   .card:hover {
     background-color: white !important;
   }
@@ -79,18 +121,47 @@
     padding-left: 70px;
     color: #413d3d;
   }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #searchStatus {
+    background-color: #444;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  #searchBar {
+    border: solid 1px #444;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    min-width: 300px;
+  }
 </style>
 <body class="bg-gray-100 text-gray-900">
   <%- include('../partials/header') %>
     <h1 class="header-page">
       Articles
     </h1>
-    <div class="sorter" style="padding: 15px; justify-content: space-between; display: flex; padding-inline: 100px; align-items: center;">
-      
-      <label for="sorter" class="text-gray-700">Sort By:</label>
-      <select name="sorter" id="sorter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900">
-        <option value="latest">Latest</option>
-      </select>
+    <div class="sorter" style="padding: 15px; justify-content: space-between; display: flex; padding-inline: 70px; align-items: center;">
+      <div class="search">
+        <input type="text" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900" id="searchBar" oninput="search(this)" placeholder="Search articles...">
+        <div id="searchStatus">
+          <i class="bi bi-search"></i>
+        </div>
+      </div>
+      <div class="sorters" style="gap: 40px;display: flex;align-items: center;">
+        <label for="sorter" class="text-gray-700">Sort By:</label>
+        <select name="sorter" id="sorter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900">
+          <option value="latest">Latest</option>
+        </select>
+      </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-8 justify-center items-center" style="justify-items: center;">
       <% articles.forEach(article => { %>
@@ -101,7 +172,7 @@
                 <img src="<%= article.User.image %>" alt="User Profile" class="w-10 h-10 rounded-full">
                 <div class="ml-3">
                   <h3 class="text-gray-800  font-semibold"><%= article.User.fullname %></h3>
-                  <p class="text-gray-500 text-sm"><%= new Date(article.createdAt).toLocaleDateString() %></p>
+                  <p class="text-gray-500 text-sm"><%= new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></p>
                 </div>
               </div>
           
@@ -220,4 +291,5 @@ function updateLikeElement(element, liked) {
     element.lastElementChild.textContent = parseInt(element.lastElementChild.textContent) - 1;
   }
 }
+
 </script>

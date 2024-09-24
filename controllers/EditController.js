@@ -40,20 +40,16 @@ const editProfile = async (req, res) => {
 
         if (banner && parseInt(defaultBg) == 0) {
             user.banner = `/uploads/${banner}`;
-            console.log('user uploaded banner image.');
             
         }
         if (parseInt(defaultBg) == 1) {
             user.banner = '/img/default_banner.svg';
-            console.log('user sat default banner image.');
         }
         if (image && parseInt(defaultPic) == 0) {
             user.image = `/uploads/${image}`;
-            console.log('user uploaded profile image.');
         }
         if (parseInt(defaultPic) == 1) {
             user.image = '/img/default.jpg';
-            console.log('user sat default profile image.');
         }
         if (fullname) {
             user.fullname = fullname;
