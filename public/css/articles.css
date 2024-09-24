@@ -1,0 +1,44 @@
+.comment {
+    background-color: #f8f8f8;
+    padding: 8px;
+    border-radius: 10px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 15px;
+}
+.comment-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-img {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    background-position: center;
+    background-size: cover;
+}
+.like-btn {
+    color: #7F35EB;
+    display: flex;
+    gap: 8px;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+}
+.comment-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+}
+.username {
+    font-size: 12px;
+}
+.comment-actions {
+    display: flex;
+    color: #7F35EB;
+    gap: 10px;
+}
