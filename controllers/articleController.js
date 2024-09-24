@@ -101,7 +101,7 @@ module.exports = {
             where: { id: articleId },
             include: {
                 model: User,
-                attributes: ['fullname', 'image', 'bio', 'createdAt']
+                attributes: ['id', 'fullname', 'username', 'banner', 'image', 'bio', 'createdAt']
             }
         });
 
