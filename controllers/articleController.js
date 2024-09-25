@@ -3,27 +3,10 @@ const Comment = require('../models/Comment');
 const Like = require('../models/Like');
 const ArticleLike = require('../models/ArticleLikes');
 const sanitizeHtml = require('sanitize-html');
-const fs = require('fs');
-const path = require('path');
-const multer = require('multer');
 const express = require('express');
 const ArticleLikes = require('../models/ArticleLikes');
 
-const uploadDir = path.join(__dirname, '../public/uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-  console.log('Uploads directory created.');
-}
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage: storage });
 
 module.exports = {
   create(req, res) {
