@@ -144,3 +144,24 @@ exports.getComments = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+
+exports.hideComment = async (req, res) => {
+  const commentId = req.params.id;
+
+  try {
+    const comment = await Comment.findOne({ where: { id: commentId } });
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    comment.hidden = true;
+    
+    await comment.save();
+
+    res.status(200).json({ message: 'Comment hidden successfully' });
+  } catch (err) {
+    console.error('Error hiding comment:', err);
+    res.status(500).json({ message: 'Server error while hiding the comment' });
+  }
+};

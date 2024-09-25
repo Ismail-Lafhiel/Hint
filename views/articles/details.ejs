@@ -135,6 +135,9 @@
                             <button class="like-btn" onclick="likeCommentAjax('<%=comment.id%>',this)"><i class="bi bi-heart"></i><p class="count"><%=comment.likes%></p></button>
                             <% } %>
                             <% if (user.id == comment.author.id) {%>
+                            <button class="like-btn" onclick="hideCommentAjax('<%=comment.id%>',this)"> <i class="bi bi-eye-slash-fill" style="font-size: 17px;"></i><p class="count">Hide</p></button>
+                            <% } %>
+                            <% if (user.id == comment.author.id) {%>
                             <button class="like-btn" onclick="deleteCommentAjax('<%= comment.id %>',this)"><i class="bi bi-trash"></i><p class="count">Delete</p></button>
                             <% } %>
                         </div>
@@ -238,6 +241,28 @@
                 updateLikeCommentElement(element, response.status);
             } else {
                 console.error('Error liking the article:', xhr.statusText);
+            }
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error('Request failed');
+    };
+
+    xhr.send();
+}
+
+function hideCommentAjax(id, element) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `/hide/${id}`, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                element.parentNode.parentNode.style.display = "none";
+            } else {
+                console.error('Error hiding the article:', xhr.statusText);
             }
         }
     };

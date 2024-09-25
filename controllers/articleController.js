@@ -126,7 +126,9 @@ module.exports = {
         }
 
         const comments = await Comment.findAll({
-            where: { articleId },
+            where: { articleId,
+                  hidden: false,
+             },
             include: {
                 model: User,
                 as: 'author',

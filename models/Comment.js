@@ -19,6 +19,10 @@ const Comment = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    hidden: {
+      type:DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     timestamps: true,
