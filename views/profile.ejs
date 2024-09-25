@@ -18,6 +18,12 @@
                 btn.disabled = false;
             }, 1000);
         }
+        function shareWhatsapp() {
+            const message = `Hi There, Checkout this author on this link ${window.location.href}`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
     </script>
 </head>
 
@@ -49,7 +55,8 @@
                     <% } else { %>
                     <button class="user-action-btn">Report</button>
                     <% } %>
-                    <button class="user-action-btn" onclick="copyThisToClipboard(window.location.href,this)">Share</button>
+                    <button class="user-action-btn" onclick="copyThisToClipboard(window.location.href,this)">Share <i class="bi bi-link-45deg" style="font-size: 18px;"></i></button>
+                    <button class="user-action-btn" onclick="shareWhatsapp()">Share <i class="bi bi-whatsapp"></i></button>
                 </div>
             </div>
         </div>

@@ -56,6 +56,11 @@
     box-shadow: 0 0 10px 2px #00000044;
     min-width: 120px;
     transition: 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 10px;
 }
 .user-action-btn:active {
     animation-name: clicked;
