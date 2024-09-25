@@ -18,7 +18,7 @@ exports.showLoginForm = (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
   const errors = [];
 
   // Validate email format
@@ -56,7 +56,13 @@ exports.loginUser = async (req, res) => {
     // On successful login, set session user and redirect to home page
     req.session.user = user;
     req.session.isAuthenticated = true;
-    console.log(user)
+    if (req.body.rememberMe === "1") {
+      req.session.cookie.maxAge = 3600 * 24;
+    } else {
+      req.session.cookie.expires = false;
+    }
+    req.session.isAuthenticated = true;
+    // console.log(user)
     req.session.successMessage = "Login successful!";
     return res.redirect("/");
   } catch (error) {

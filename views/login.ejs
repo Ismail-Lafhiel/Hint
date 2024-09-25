@@ -14,16 +14,12 @@
           <div class="w-full max-w-5xl mx-auto">
             <div
               class="grid md:grid-cols-2 gap-16 bg-gray-50 shadow w-full sm:p-8 p-6 rounded-xl relative"
-              style="box-shadow: 0 0 12px 2px #0001;"
+              style="box-shadow: 0 0 12px 2px #0001"
             >
               <div>
                 <div class="mb-16">
                   <a href="/"
-                    ><img
-                      src="img/logos/hint-lg.svg"
-                      alt="logo"
-                      width="200"
-                    />
+                    ><img src="img/logos/hint-lg.svg" alt="logo" width="200" />
                   </a>
                 </div>
 
@@ -174,11 +170,23 @@
                       >
                     </div>
                   </div>
-
                   <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                
+                      <input
+                        id="remember-me"
+                        name="rememberMe"
+                        value="0"
+                        type="checkbox"
+                        class="h-4 w-4 shrink-0 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                      />
+                      <label
+                        for="remember-me"
+                        class="ml-3 block text-sm text-gray-800 dark:text-gray-200"
+                      >
+                        Remember me
+                      </label>
                     </div>
+                    <div class="flex items-center"></div>
                     <a
                       href="/passwordRecovery"
                       class="text-primary-600 text-xs font-semibold hover:underline ml-1"
@@ -186,7 +194,6 @@
                     >
                   </div>
                 </div>
-
                 <div class="mt-12">
                   <button
                     type="submit"
@@ -218,13 +225,21 @@
     <%- include('partials/footer') %>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     <script src="/js/loginValidation.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var rememberMeCheckbox = document.getElementById("remember-me");
+
+        rememberMeCheckbox.addEventListener("change", function () {
+          this.value = this.checked ? "1" : "0";
+        });
+      });
+    </script>
   </body>
 </html>
 <style>
-      
-  @import url('https://fonts.cdnfonts.com/css/montserrat');
-      
+  @import url("https://fonts.cdnfonts.com/css/montserrat");
+
   * {
-      font-family: 'Montserrat', sans-serif !important;
+    font-family: "Montserrat", sans-serif !important;
   }
 </style>

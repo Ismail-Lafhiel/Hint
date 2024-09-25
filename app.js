@@ -18,7 +18,7 @@ app.use(
     secret: secretkey,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: { secure: false, maxAge: 60 },
   })
 );
 
