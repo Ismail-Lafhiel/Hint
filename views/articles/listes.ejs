@@ -160,6 +160,7 @@
         <label for="sorter" class="text-gray-700">Sort By:</label>
         <select name="sorter" id="sorter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900">
           <option value="latest">Latest</option>
+          <option value="popular">Popular</option>
         </select>
       </div>
     </div>
@@ -292,4 +293,15 @@ function updateLikeElement(element, liked) {
   }
 }
 
+
+ document.getElementById('sorter').addEventListener('change', function() {
+    const selectedOption = this.value; 
+    const currentUrl = window.location.origin + window.location.pathname; 
+    const newUrl = `${currentUrl}?sorter=${selectedOption}`; 
+    window.location.href = newUrl; 
+  });
+
+
+
 </script>
+
