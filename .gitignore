@@ -36,7 +36,7 @@ build/
 
 # Ignore OS-specific files
 .DS_Store
-Thumbs.db
+Thumbs.db     
 
 # Ignore other unwanted files
 npm-debug.log
@@ -46,3 +46,6 @@ yarn.lock
 
 # Environment Variables
 .env
+
+
+public/uploads

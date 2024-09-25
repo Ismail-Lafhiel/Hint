@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/tailwind.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title><%= title %></title>
+  </head>
+  <body class="flex items-center justify-center h-screen">
+    <button
+      id="openModalBtn"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Comments!
+    </button>
+
+    <div
+      id="myModal"
+      class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center"
+    >
+      <div
+        class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative"
+      >
+        <span
+          id="closeModalBtn"
+          class="close absolute top-0 right-0 mt-4 mr-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-900"
+          >&times;</span
+        >
+
+        <form action="/comment/<%= articleId %>" method="POST">
+          <div
+            class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50"
+          >
+            <div class="px-4 py-2 bg-white rounded-t-lg">
+              <label for="comment" class="sr-only">Your comment</label>
+              <textarea
+                id="comment"
+                name="content"
+                rows="4"
+                class="w-full px-0 text-sm text-gray-900 bg-white border-0 focus:ring-0"
+                placeholder="Write a comment..."
+                required
+              ></textarea>
+            </div>
+            <div
+              class="flex items-center justify-between px-3 py-2 border-t"
+            >
+              <button
+                type="submit"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-Violet-40 rounded-lg focus:ring-4 focus:bg-Violet-50 hover:bg-blue-800"
+              >
+                Post comment
+              </button>
+            </div>
+            <input type="hidden" value="1" name="userId" />
+          </div>
+        </form>
+
+        <!-- List of comments -->
+        <% if (comments && comments.length > 0) { %>
+        <ul class="mt-4">
+          <% comments.forEach(comment => { %>
+          <li class="mb-2 flex items-start">
+            <div class="flex justify-between items-center gap-[9rem]">
+              <div>
+                <small
+                  >Posted by <strong><%= comment.author.username %></strong> on
+                  <%= comment.createdAt.toDateString() %></small
+                >
+                <p><%= comment.content %></p>
+              </div>
+              <div class="flex items-center">
+                <button
+                  id="likeBtn_<%= comment.id %>"
+                  class="ml-2 text-gray-500 hover:text-Violet-50 focus:outline-none border-none bg-transparent"
+                  onclick="toggleLike(<%= comment.id %>)"
+                >
+                  <i
+                    class="bi bi-heart-fill<%= comment.userLiked ? ' text-Violet-50' : '' %>"
+                  ></i>
+                </button>
+                <span
+                  id="likeCount_<%= comment.id %>"
+                  class="ml-2 text-gray-900"
+                  ><%= comment.likes %></span
+                >
+
+                <button
+                  class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none border-none bg-transparent"
+                  onclick="openDeleteModal(<%= comment.id %>)"
+                >
+                  <i class="bi bi-trash"></i>
+              </button>
+              </div>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+
+        <% } else { %>
+        <p>No comments found for this article.</p>
+        <% } %>
+      </div>
+    </div>
+
+    <div
+      id="deleteModal"
+      class="modal fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center"
+    >
+      <div
+        class="modal-content bg-white p-6 rounded shadow-lg w-4/5 md:w-1/3 relative"
+      >
+
+        <div class="modal-body text-center">
+          Are you sure you want to delete this comment?
+        </div>
+        <div class="modal-footer mt-4 flex justify-center gap-x-4">
+          <button
+            type="button"
+            class="bg-Violet-40 hover:bg-Violet-50 text-white font-bold py-2 px-4 rounded mr-2"
+            id="cancelDeleteBtn"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="bg-Violet-30 hover:bg-Violet-50 text-white font-bold py-2 px-4 rounded"
+            id="confirmDeleteBtn"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+              var modal = document.getElementById("myModal");
+              var btn = document.getElementById("openModalBtn");
+              var span = document.getElementById("closeModalBtn");
+              var deleteModal = document.getElementById("deleteModal");
+              var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+              var closeDeleteModalBtn = document.getElementById("closeDeleteModalBtn");
+              var cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+              var commentIdToDelete = null; 
+
+              // Open the modal for comments
+              btn.onclick = function () {
+                  modal.classList.remove("hidden");
+                  modal.classList.add("flex");
+              }
+
+              // Close the modal
+              span.onclick = function () {
+                  modal.classList.add("hidden");
+                  modal.classList.remove("flex");
+              }
+
+              // Open the delete modal
+              function openDeleteModal(id) {
+                  commentIdToDelete = id;
+                  deleteModal.classList.remove("hidden");
+                  deleteModal.classList.add("flex");
+              }
+
+              // Close the delete modal
+              function closeDeleteModal() {
+                  deleteModal.classList.add("hidden");
+                  deleteModal.classList.remove("flex");
+              }
+
+              // Handle the delete request
+              confirmDeleteBtn.onclick = function () {
+                  if (commentIdToDelete) {
+                      const articleId = '<%= articleId %>';
+                      const deleteUrl = `/delete/${commentIdToDelete}`;
+
+                      fetch(deleteUrl, {
+                          method: 'DELETE',
+                      })
+                      .then(response => {
+                          if (response.ok) {
+                              location.reload();
+                          } else {
+                              console.error("Failed to delete comment");
+                          }
+                          closeDeleteModal();
+                      })
+                      .catch(error => {
+                          console.error("Error deleting comment:", error);
+                          closeDeleteModal();
+                      });
+                  }
+              }
+
+              // Close the delete modal by clicking outside of it
+              window.onclick = function (event) {
+                  if (event.target == deleteModal) {
+                      closeDeleteModal();
+                  } else if (event.target == modal) {
+                      modal.classList.add("hidden");
+                      modal.classList.remove("flex");
+                  }
+              }
+
+              cancelDeleteBtn.onclick = function () {
+                  closeDeleteModal();
+              }
+
+
+function toggleLike(commentId) {
+    const likeBtn = document.getElementById(`likeBtn_${commentId}`);
+    const likeCount = document.getElementById(`likeCount_${commentId}`);
+    const userId = 1;  // Fixation de l'ID utilisateur
+
+    // Vérifie si le cœur est déjà colorié en Violet
+    const isLiked = likeBtn.querySelector('i').classList.contains('text-Violet-40');
+    const method = isLiked ? 'DELETE' : 'GET';
+    const likeUrl = `/like/${commentId}/${encodeURIComponent(userId)}`;
+
+    fetch(likeUrl, {
+        method: method,
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mettre à jour le nombre de likes
+            likeCount.textContent = data.likes;
+
+            // Stocker l'état du like dans localStorage
+            if (isLiked) {
+                // Si l'utilisateur retire le like, on revient à la couleur gris et on retire du localStorage
+                likeBtn.querySelector('i').classList.remove('text-Violet-40');
+                likeBtn.querySelector('i').classList.add('text-gray-500');
+                localStorage.removeItem(`like_${commentId}`);
+            } else {
+                // Si l'utilisateur ajoute un like, on met la couleur Violet et on stocke l'état dans localStorage
+                likeBtn.querySelector('i').classList.remove('text-gray-500');
+                likeBtn.querySelector('i').classList.add('text-Violet-40');
+                localStorage.setItem(`like_${commentId}`, 'true');
+            }
+        } else {
+            console.log('Error toggling like:', data.message);
+        }
+    })
+    .catch(error => console.error('Error toggling like:', error));
+}
+
+// Lors du chargement de la page, applique la couleur aux likes existants à partir du localStorage
+document.addEventListener('DOMContentLoaded', () => {
+    const commentsLiked = <%- JSON.stringify(comments).replace(/</g, '\\u003c') %>;
+
+    commentsLiked.forEach(comment => {
+        const likeBtn = document.getElementById(`likeBtn_${comment.id}`);
+        const likeCount = document.getElementById(`likeCount_${comment.id}`);
+
+        // Vérifie si le commentaire est liké dans localStorage
+        const isLikedInStorage = localStorage.getItem(`like_${comment.id}`);
+
+        // Si l'utilisateur a déjà aimé un commentaire, applique la couleur Violet
+        if (isLikedInStorage) {
+            likeBtn.querySelector('i').classList.remove('text-gray-500');
+            likeBtn.querySelector('i').classList.add('text-Violet-40');
+        } else {
+            // Sinon, laisse le cœur en gris
+            likeBtn.querySelector('i').classList.add('text-gray-500');
+        }
+    });
+});
+
+    </script>
+  </body>
+</html>
