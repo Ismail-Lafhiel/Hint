@@ -3,16 +3,18 @@ const Comment = require('../models/Comment');
 const Like = require('../models/Like');
 const ArticleLike = require('../models/ArticleLikes');
 const sanitizeHtml = require('sanitize-html');
-const fs = require('fs');
-const path = require('path');
-const multer = require('multer');
 const express = require('express');
-const ArticleLikes = require('../models/ArticleLikes');
+const multer = require('multer'); 
+const fs = require('fs'); 
+const path = require('path'); 
+const { Op } = require('sequelize');
+
+
+
 
 const uploadDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
-  console.log('Uploads directory created.');
 }
 
 const storage = multer.diskStorage({
@@ -64,18 +66,25 @@ module.exports = {
 
   async getArticles(req, res) {
     try {
-        const articles = await Article.findAll({
-            include: {
-                model: User,
-                attributes: ['fullname', 'image', 'bio']
-            },
-            order: [['createdAt', 'DESC']]
-        });
+      const sortBy = req.query.sorter || 'latest'; 
+
+      let order = [['createdAt', 'DESC']]; 
+      if (sortBy === 'popular') {
+          order = [['views', 'DESC']]; 
+      }
+
+      const articles = await Article.findAll({
+          include: {
+              model: User,
+              attributes: ['fullname', 'image', 'bio']
+          },
+          order
+      });
 
         const userId = req.session.user.id;
 
         const processedArticles = await Promise.all(articles.map(async (article) => {
-            const liked = await ArticleLikes.findOne({ where: { articleId: article.id, userId } });
+            const liked = await ArticleLike.findOne({ where: { articleId: article.id, userId } });
             const commentCount = await Comment.count({ where: { articleId: article.id } });
             article.liked = !!liked;
             article.commentCount = commentCount;
@@ -105,8 +114,12 @@ module.exports = {
             }
         });
 
+        const articleIsLiked = await ArticleLike.findOne({ where: { articleId: articleId, userId: req.session.user.id } });
+
         const onlyArticle = await Article.findOne({ where: { id: articleId } });
-        onlyArticle.increment('views', { by: 1 });
+        if (onlyArticle) {
+          await onlyArticle.increment('views', { by: 1 });
+        }
 
         if (!article) {
             return res.status(404).render('error', { message: 'Article not found' });
@@ -137,8 +150,16 @@ module.exports = {
             allowedAttributes: { a: ['href'], img: ['src', 'alt'] }
         });
         article.comments = processedComments;
+        article.isLiked = !!articleIsLiked;
+        article.views = article.views + 1;
 
-        res.render('articles/details', { title: article.title, article });
+        const sameAuthorArticles = await Article.findAll({
+            where: { userId: article.userId, id: { [Op.ne]: article.id } },
+            limit: 5,
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.render('articles/details', { title: article.title, article, sameAuthorArticles });
     } catch (error) {
         console.error('Error retrieving article details:', error);
         res.status(500).render('error', { message: 'Server error while retrieving the article.' });
@@ -239,5 +260,5 @@ module.exports = {
         console.error('Error liking article:', error);
         return res.status(500).json({ error: 'An error occurred while liking the article.' });
     }
-}
+  },
 };

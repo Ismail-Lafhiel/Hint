@@ -18,6 +18,12 @@
                 btn.disabled = false;
             }, 1000);
         }
+        function shareWhatsapp() {
+            const message = `Hi There, Checkout this author on this link ${window.location.href}`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
     </script>
 </head>
 
@@ -49,7 +55,8 @@
                     <% } else { %>
                     <button class="user-action-btn">Report</button>
                     <% } %>
-                    <button class="user-action-btn" onclick="copyThisToClipboard(window.location.href,this)">Share</button>
+                    <button class="user-action-btn" onclick="copyThisToClipboard(window.location.href,this)">Share <i class="bi bi-link-45deg" style="font-size: 18px;"></i></button>
+                    <button class="user-action-btn" onclick="shareWhatsapp()">Share <i class="bi bi-whatsapp"></i></button>
                 </div>
             </div>
         </div>
@@ -71,7 +78,7 @@
                         Reactions
                     </div>
                     <div class="stat-value">
-                        <%= likeCount %>
+                        <%= allLikes %>
                     </div>
                 </div>
                 <div class="stat">
@@ -80,6 +87,14 @@
                     </div>
                     <div class="stat-value">
                         <%= commentCount %>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">
+                        Views
+                    </div>
+                    <div class="stat-value">
+                        <%= allViews %>
                     </div>
                 </div>
             </div>
@@ -91,7 +106,7 @@
                     <h1 class="articles-title">
                         Articles
                     </h1>
-                    <a href="/articles/list"><button class="articles-action">View All</button></a>
+                    <a href="/articles/listes"><button class="articles-action">View All</button></a>
                 </div>
                 <% if (articles.length === 0) { %>
                 <div class="no-content-list">
@@ -104,7 +119,7 @@
                 <!-- Article list here : -->
                  <% articles.forEach(article => { %>
                 <div class="article">
-                    <div class="article-img" style="background-image: url('/img/default.jpg');">
+                    <div class="article-img" style="background-image: url('<%= article.coverImage %>');">
                         
                     </div>
                     <div class="article-info">
@@ -112,7 +127,7 @@
                             <%= article.title %>
                         </div>
                         <div class="article-desc">
-                            <%= article.smallDescription %>...
+                            <%= new Date(article.createdAt).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
                         </div>
                         
                     </div>
@@ -120,7 +135,10 @@
                         <i class="bi bi-three-dots"></i>
                         <div class="actions-">
                             <a href="/articles/<%= article.id %>"><button class="action">Read <i class="bi bi-book"></i></button></a>
+                            <% if (session.user.id == profile.id) { %>
                             <a href="/articles/<%= article.id %>/edit"><button class="action">Edit <i class="bi bi-pen"></i></button></a>
+                            <a href="/articles/<%= article.id %>/delete"><button class="action">Delete <i class="bi bi-trash"></i></button></a>
+                            <% }%>
                         </div>
                     </div>
                 </div>
@@ -143,7 +161,7 @@
                         <h1 class="card-title">
                             <%= article.title %>
                             <p class="card-date">
-                                <%= new Date(article.createdAt).toLocaleDateString() %>
+                                <%= new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
                                 <strong>By</strong>
                                 <span class="card-author"><%= profile.username %></span>
                             </p>
@@ -156,7 +174,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" onclick="window.location.href = '/articles/<%= article.id %>'" style="cursor: pointer;">
                         <div class="card-img" style="background-image: url('<%= article.coverImage %>');">
                             
                         </div>
@@ -165,14 +183,6 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="post-counts">
-                            <div class="like-btn" onclick="window.location.href = '/articles/<%= article.id %>'">
-                                <i class="bi bi-box-arrow-up-right"></i>
-                                <p class="count">
-                                    Read
-                                </p>
-                            </div>
-                        </div>
                         <div class="post-counts">
                             <div class="like-btn" onclick="likeAjax('<%= article.id %>', this)">
                                 <% if (article.isLiked) { %>
@@ -190,6 +200,14 @@
                                 <i class="bi bi-eye"></i>
                                 <p class="count">
                                     <%= article.views %>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="post-counts">
+                            <div class="like-btn">
+                                <i class="bi bi-chat"></i>
+                                <p class="count">
+                                    <%= article.commentCount %>
                                 </p>
                             </div>
                         </div>

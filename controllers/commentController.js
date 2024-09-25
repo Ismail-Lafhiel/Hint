@@ -85,7 +85,6 @@ exports.likeComment = async (req, res) => {
       if (comment) {
         comment.likes -= 1;
         await comment.save();
-        console.log('unliked');
         return res.json({ status: 'unliked' });
       }
       return res

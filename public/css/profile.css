@@ -56,6 +56,11 @@
     box-shadow: 0 0 10px 2px #00000044;
     min-width: 120px;
     transition: 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 10px;
 }
 .user-action-btn:active {
     animation-name: clicked;
@@ -525,7 +530,7 @@
   .articles-header {
     background-color: #fff;
     width: 100%;
-    height: 100px;
+    height: 120px;
     font-size: 25px;
     color: #000;
     display: flex;
@@ -546,12 +551,12 @@
     justify-content: space-between;
     padding: 5px;
     gap: 10px;
-    border-radius: 7px;
+    border-radius: 4px;
     cursor: pointer;
     background-color: #fff;
   }
   .article:hover {
-    background-color: #e5e5e5;
+    background-color: #ffffff7e;
     backdrop-filter: blur(10px);
     transition: 0.3s;
   }
@@ -567,6 +572,10 @@
     font-size: 14px;
     color: #000;
     font-weight: 500;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
   .article-desc {
     font-size: 12px;
@@ -709,7 +718,8 @@
     min-width: 47%;
     max-width: 47%;
     height: 100%;
-    min-height: 300px;
+    min-height: 400px;
+    max-height: 400px;
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -727,13 +737,16 @@
     padding: 10px;
   }
   .card-title {
-    font-size: 20px;
+    font-size: 16px;
     color: #000;
     font-weight: 500;
     max-width: 90%;
   }
   .card-body {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
   .card-img {
     height: 150px;
@@ -741,6 +754,7 @@
     width: 100%;
     background-position: center;
     background-size: cover;
+    flex-grow: 1;
   }
   .card-date {
     font-size: 13px;
@@ -975,9 +989,9 @@
 .card-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
-    padding: 10px;
+    padding-inline: 10px;
     gap: 10px;
 }
 .post-counts {
@@ -994,5 +1008,9 @@
 }
 .count {
   color: #6a2cb8;
+  font-size: 12px;
+}
+.error {
+  color: #f00;
   font-size: 12px;
 }

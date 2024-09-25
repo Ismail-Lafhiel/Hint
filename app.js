@@ -12,10 +12,9 @@ const crypto = require("crypto");
 const app = express();
 
 // Middleware de session
-const secretkey = crypto.randomBytes(64).toString("hex");
 app.use(
   session({
-    secret: secretkey,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
