@@ -127,6 +127,7 @@
                             <% if (user.id == comment.author.id) {%>
                             <button class="delete-btn" onclick="deleteCommentAjax('<%= comment.id %>',this)"><i class="bi bi-trash"></i></button>
                             <% } %>
+                            <button onclick="hideCommentAjax('<%=comment.id%>',this)">Hide</button>
                         </div>
                     </div>
                 <% }) %>
@@ -183,6 +184,28 @@
                 updateLikeElement(element, response.status);
             } else {
                 console.error('Error liking the article:', xhr.statusText);
+            }
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error('Request failed');
+    };
+
+    xhr.send();
+}
+
+function hideCommentAjax(id, element) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `/hide/${id}`, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                element.parentNode.parentNode.style.display = "none";
+            } else {
+                console.error('Error hiding the article:', xhr.statusText);
             }
         }
     };

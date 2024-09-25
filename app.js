@@ -55,6 +55,7 @@ syncDatabase().then(() => {
   const commentRouter = require("./routes/comment");
   const deleteCommentRouter = require("./routes/deleteComment");
   const likeRoutes = require("./routes/likeComment");
+  const hideRoutes = require("./routes/hideComment");
   const EditProfileRouter = require("./routes/editProfile");
 
   app.use("/", indexRouter);
@@ -68,6 +69,7 @@ syncDatabase().then(() => {
   app.use("/comment", commentRouter);
   app.use("/deleteComment", deleteCommentRouter);
   app.use("/like", likeRoutes);
+  app.use("/hide", hideRoutes);
   app.use("/editProfile", EditProfileRouter);
 
   app.use((req, res) => {
