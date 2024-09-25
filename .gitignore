@@ -46,3 +46,6 @@ yarn.lock
 
 # Environment Variables
 .env
+
+
+public/uploads
