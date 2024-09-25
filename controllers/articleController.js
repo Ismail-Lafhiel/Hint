@@ -3,12 +3,14 @@ const Comment = require('../models/Comment');
 const Like = require('../models/Like');
 const ArticleLike = require('../models/ArticleLikes');
 const sanitizeHtml = require('sanitize-html');
-const fs = require('fs');
-const path = require('path');
-const multer = require('multer');
 const express = require('express');
-const ArticleLikes = require('../models/ArticleLikes');
+const multer = require('multer'); 
+const fs = require('fs'); 
+const path = require('path'); 
 const { Op } = require('sequelize');
+
+
+
 
 const uploadDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -64,18 +66,25 @@ module.exports = {
 
   async getArticles(req, res) {
     try {
-        const articles = await Article.findAll({
-            include: {
-                model: User,
-                attributes: ['fullname', 'image', 'bio']
-            },
-            order: [['createdAt', 'DESC']]
-        });
+      const sortBy = req.query.sorter || 'latest'; 
+
+      let order = [['createdAt', 'DESC']]; 
+      if (sortBy === 'popular') {
+          order = [['views', 'DESC']]; 
+      }
+
+      const articles = await Article.findAll({
+          include: {
+              model: User,
+              attributes: ['fullname', 'image', 'bio']
+          },
+          order
+      });
 
         const userId = req.session.user.id;
 
         const processedArticles = await Promise.all(articles.map(async (article) => {
-            const liked = await ArticleLikes.findOne({ where: { articleId: article.id, userId } });
+            const liked = await ArticleLike.findOne({ where: { articleId: article.id, userId } });
             const commentCount = await Comment.count({ where: { articleId: article.id } });
             article.liked = !!liked;
             article.commentCount = commentCount;
