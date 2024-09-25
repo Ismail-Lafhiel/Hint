@@ -23,6 +23,7 @@
 .like-btn {
     color: #7F35EB;
     display: flex;
+    flex-direction: column;
     gap: 8px;
     font-size: 18px;
     align-items: center;
@@ -43,3 +44,76 @@
     color: #7F35EB;
     gap: 10px;
 }
+.no-comments {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 15px;
+    font-size: 40px;
+}
+.liker {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.side-article {
+    width: 30%;
+    flex-grow: 0.3;
+    margin-left: 20px;
+  }
+  .author-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .author-btn {
+    width: 100%;
+    background-color: #7F35EB;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin: 10px;
+    font-size: 14px;
+  }
+  .author-btn:hover {
+    background-color: #6a2cb8;
+    transition: 0.3s;
+  }
+  .more-article-img {
+    height: 80px;
+  }
+  .more-article {
+    width: 100%;
+    margin: 3px;
+  }
+  .more-article:hover {
+    background-color: #dedede;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  .more-article-inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+  .more-article-content {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 300px;
+  }
+  .more-article-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .count {
+    font-size: 12px;
+  }

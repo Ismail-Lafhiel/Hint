@@ -42,11 +42,6 @@ exports.updatePassword = async (req, res) => {
   try {
     const user = await User.findOne({ where: { resetPasswordToken: token } });
 
-    // Log the user and token for debugging
-    console.log("User found:", user);
-    console.log("Current Time:", Date.now());
-    console.log("Token Expiration:", user.resetPasswordExpires);
-
     if (!user || user.resetPasswordExpires < Date.now()) {
       req.session.errorMessage =
         "Password reset token is invalid or has expired.";

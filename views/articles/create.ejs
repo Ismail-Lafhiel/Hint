@@ -30,7 +30,26 @@
       * {
           font-family: 'Montserrat', sans-serif !important;
       }
+      .error {
+        color: red;
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+      }
+      .info {
+        color: #0b8cf5;
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+      }
+      .coverPreview {
+        height: 170px;
+
+      }
+      .cover-info {
+        font-size: 12px;
+        color: #0b8cf5;
+      }
     </style>
+    <script src="/js/create.js"></script>
   </head>
 
   <body class="bg-gray-100 text-gray-900">
@@ -52,6 +71,8 @@
           action="/articles/create"
           enctype="multipart/form-data"
           class="space-y-6"
+          id="articleForm"
+          onsubmit="return false"
         >
           <div class="relative">
             <input
@@ -61,8 +82,11 @@
               class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900"
               placeholder=""
               value="<%= data.title || '' %>"
+              oninput="charsCount(this, document.getElementById('charsCountTitle'), 50)"
               required
             />
+            <span id="charsCountTitle" class="absolute right-4 top-3 text-gray-500"></span>
+            <span id="titleError" class="error"></span>
             <label
               for="title"
               id="title-label"
@@ -80,8 +104,11 @@
               class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900"
               placeholder=""
               value="<%= data.description || '' %>"
+              oninput="charsCount(this, document.getElementById('charsCountDesc'), 70)"
               required
             />
+            <span id="charsCountDesc" class="absolute right-4 top-3 text-gray-500"></span>
+            <span id="descriptionError" class="error"></span>
             <label
               for="description"
               id="description-label"
@@ -104,6 +131,7 @@
               >
                 <div
                   class="flex flex-col items-center justify-center pt-5 pb-6"
+                  id="coverPreview"
                 >
                   <svg
                     class="w-8 h-8 mb-4 text-gray-500"
@@ -130,14 +158,20 @@
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
+                <p id="coverInfo" class="cover-info"></p>
                 <input
                   id="coverImage"
                   type="file"
                   name="coverImage"
                   class="hidden"
+                  oninput="fileData(this)"
                 />
+
               </label>
             </div>
+            <span id="coverError" class="error"></span>
+            <br>
+            <span class="info">If no cover image was uploaded, default will be used.</span>
           </div>
 
           <div>
@@ -149,11 +183,12 @@
             >
                       <%= data.content || '' %>
             </textarea>
+            <span id="contentError" class="error"></span>
           </div>
 
           <div class="flex justify-center">
             <button
-              type="submit"
+              onclick="validateAndSubmit(this.parentNode.parentNode)"
               class="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold px-6 py-3 mb-5 rounded-full shadow-lg hover:from-purple-600 hover:to-blue-500 transform transition-transform transition-colors duration-300 flex items-end justify-end focus:outline-none focus:ring-4 focus:ring-blue-300"
             >
               Publier l'Article
